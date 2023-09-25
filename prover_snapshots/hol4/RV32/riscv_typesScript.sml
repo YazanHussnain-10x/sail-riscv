@@ -427,7 +427,7 @@ val _ = Hol_datatype `
 val _ = type_abbrev( "satp_mode"  , ``: 4 bits``);
 
 val _ = Hol_datatype `
- SATPMode =   Sbare | Sv32 | Sv39 | Sv48`;
+ SATPMode =   Sbare | Sv32 | Sv39 | Sv48 | Sv57`;
 
 
 
@@ -583,6 +583,21 @@ val _ = Hol_datatype `
 
 val _ = Hol_datatype `
  SV48_Vaddr  = <| SV48_Vaddr_SV48_Vaddr_chunk_0 :  48 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_PTE  = <| SV57_PTE_SV57_PTE_chunk_0 :  64 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_Paddr  = <| SV57_Paddr_SV57_Paddr_chunk_0 :  56 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_Vaddr  = <| SV57_Vaddr_SV57_Vaddr_chunk_0 :  57 words$word  |>`;
 
 
 
@@ -750,7 +765,11 @@ val _ = type_abbrev( "vaddr39"  , ``: 39 bits``);
 
 val _ = type_abbrev( "vaddr48"  , ``: 48 bits``);
 
+val _ = type_abbrev( "vaddr57"  , ``: 57 bits``);
+
 val _ = type_abbrev( "pte48"  , ``: 64 bits``);
+
+val _ = type_abbrev( "pte57"  , ``: 64 bits``);
 
 val _ = Hol_datatype `
  PTW_Result =

@@ -1600,10 +1600,11 @@ Definition SATPMode_of_num (arg_ : Z) `{ArithFact ((0 <=? arg_) && (arg_ <=? 3))
    if sumbool_of_bool (Z.eqb l__247 0) then Sbare
    else if sumbool_of_bool (Z.eqb l__247 1) then Sv32
    else if sumbool_of_bool (Z.eqb l__247 2) then Sv39
-   else Sv48.
+   else if sumbool_of_bool (Z.eqb l__247 3) then Sv48
+   else Sv57.
 
 Definition num_of_SATPMode (arg_ : SATPMode) : {e : Z & ArithFact ((0 <=? e) && (e <=? 3))} :=
-   build_ex (match arg_ with | Sbare => 0 | Sv32 => 1 | Sv39 => 2 | Sv48 => 3 end).
+   build_ex (match arg_ with | Sbare => 0 | Sv32 => 1 | Sv39 => 2 | Sv48 => 3 | Sv57 => 4 end).
 
 Definition satp64Mode_of_bits (a : Architecture) (m : mword 4) : option SATPMode :=
    match (a, m) with
@@ -1617,6 +1618,7 @@ Definition satp64Mode_of_bits (a : Architecture) (m : mword 4) : option SATPMode
         | (RV64, b__0) =>
            if eq_vec b__0 (Ox"8"  : mword 4) then Some Sv39
            else if eq_vec b__0 (Ox"9"  : mword 4) then Some Sv48
+           else if eq_vec b__0 (Ox"A"  : mword 4) then Some Sv57
            else match (RV64, b__0) with | (_, _) => None end
         | (_, _) => None
         end
@@ -13112,6 +13114,238 @@ Definition _update_SV48_PTE_BITS (v : SV48_PTE) (x : mword 8) : SV48_PTE :=
      SV48_PTE_SV48_PTE_chunk_0 :=
        (update_subrange_vec_dec v.(SV48_PTE_SV48_PTE_chunk_0) 7 0 (subrange_vec_dec x 7 0)) ]}.
 
+Definition SV57_LEVEL_BITS := 9.
+Hint Unfold SV57_LEVEL_BITS : sail.
+Definition SV57_LEVELS := 5.
+Hint Unfold SV57_LEVELS : sail.
+Definition PTE57_LOG_SIZE := 3.
+Hint Unfold PTE57_LOG_SIZE : sail.
+Definition PTE57_SIZE := 8.
+Hint Unfold PTE57_SIZE : sail.
+Definition Mk_SV57_Vaddr (v : mword 57) : SV57_Vaddr :=
+   {| SV57_Vaddr_SV57_Vaddr_chunk_0 := (subrange_vec_dec v 56 0) |}.
+
+Definition _get_SV57_Vaddr_bits (v : SV57_Vaddr) : mword 57 :=
+   subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 56 0.
+
+Definition _set_SV57_Vaddr_bits
+(r_ref : register_ref regstate register_value SV57_Vaddr) (v : mword 57)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Vaddr_SV57_Vaddr_chunk_0) 56 0 (subrange_vec_dec v 56 0)) ]}
+      : SV57_Vaddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Vaddr_bits (v : SV57_Vaddr) (x : mword 57) : SV57_Vaddr :=
+   {[ v with
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 56 0 (subrange_vec_dec x 56 0)) ]}.
+
+Definition _get_SV57_Vaddr_VPNi (v : SV57_Vaddr) : mword 27 :=
+   subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 38 12.
+
+Definition _set_SV57_Vaddr_VPNi
+(r_ref : register_ref regstate register_value SV57_Vaddr) (v : mword 27)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Vaddr_SV57_Vaddr_chunk_0) 38 12 (subrange_vec_dec v 26 0)) ]}
+      : SV57_Vaddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Vaddr_VPNi (v : SV57_Vaddr) (x : mword 27) : SV57_Vaddr :=
+   {[ v with
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 38 12 (subrange_vec_dec x 26 0)) ]}.
+
+Definition _get_SV57_Vaddr_PgOfs (v : SV57_Vaddr) : mword 12 :=
+   subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 11 0.
+
+Definition _set_SV57_Vaddr_PgOfs
+(r_ref : register_ref regstate register_value SV57_Vaddr) (v : mword 12)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Vaddr_SV57_Vaddr_chunk_0) 11 0 (subrange_vec_dec v 11 0)) ]}
+      : SV57_Vaddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Vaddr_PgOfs (v : SV57_Vaddr) (x : mword 12) : SV57_Vaddr :=
+   {[ v with
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Vaddr_SV57_Vaddr_chunk_0) 11 0 (subrange_vec_dec x 11 0)) ]}.
+
+Definition Mk_SV57_Paddr (v : mword 56) : SV57_Paddr :=
+   {| SV57_Paddr_SV57_Paddr_chunk_0 := (subrange_vec_dec v 55 0) |}.
+
+Definition _get_SV57_Paddr_bits (v : SV57_Paddr) : mword 56 :=
+   subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 55 0.
+
+Definition _set_SV57_Paddr_bits
+(r_ref : register_ref regstate register_value SV57_Paddr) (v : mword 56)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Paddr_SV57_Paddr_chunk_0) 55 0 (subrange_vec_dec v 55 0)) ]}
+      : SV57_Paddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Paddr_bits (v : SV57_Paddr) (x : mword 56) : SV57_Paddr :=
+   {[ v with
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 55 0 (subrange_vec_dec x 55 0)) ]}.
+
+Definition _get_SV57_Paddr_PPNi (v : SV57_Paddr) : mword 44 :=
+   subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 55 12.
+
+Definition _set_SV57_Paddr_PPNi
+(r_ref : register_ref regstate register_value SV57_Paddr) (v : mword 44)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Paddr_SV57_Paddr_chunk_0) 55 12 (subrange_vec_dec v 43 0)) ]}
+      : SV57_Paddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Paddr_PPNi (v : SV57_Paddr) (x : mword 44) : SV57_Paddr :=
+   {[ v with
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 55 12 (subrange_vec_dec x 43 0)) ]}.
+
+Definition _get_SV57_Paddr_PgOfs (v : SV57_Paddr) : mword 12 :=
+   subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 11 0.
+
+Definition _set_SV57_Paddr_PgOfs
+(r_ref : register_ref regstate register_value SV57_Paddr) (v : mword 12)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_Paddr_SV57_Paddr_chunk_0) 11 0 (subrange_vec_dec v 11 0)) ]}
+      : SV57_Paddr in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_Paddr_PgOfs (v : SV57_Paddr) (x : mword 12) : SV57_Paddr :=
+   {[ v with
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_Paddr_SV57_Paddr_chunk_0) 11 0 (subrange_vec_dec x 11 0)) ]}.
+
+Definition Mk_SV57_PTE (v : mword 64) : SV57_PTE :=
+   {| SV57_PTE_SV57_PTE_chunk_0 := (subrange_vec_dec v 63 0) |}.
+
+Definition _get_SV57_PTE_bits (v : SV57_PTE) : mword 64 :=
+   subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 63 0.
+
+Definition _set_SV57_PTE_bits (r_ref : register_ref regstate register_value SV57_PTE) (v : mword 64)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_PTE_SV57_PTE_chunk_0) 63 0 (subrange_vec_dec v 63 0)) ]}
+      : SV57_PTE in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_PTE_bits (v : SV57_PTE) (x : mword 64) : SV57_PTE :=
+   {[ v with
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 63 0 (subrange_vec_dec x 63 0)) ]}.
+
+Definition _get_SV57_PTE_Ext (v : SV57_PTE) : mword 10 :=
+   subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 63 54.
+
+Definition _set_SV57_PTE_Ext (r_ref : register_ref regstate register_value SV57_PTE) (v : mword 10)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_PTE_SV57_PTE_chunk_0) 63 54 (subrange_vec_dec v 9 0)) ]}
+      : SV57_PTE in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_PTE_Ext (v : SV57_PTE) (x : mword 10) : SV57_PTE :=
+   {[ v with
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 63 54 (subrange_vec_dec x 9 0)) ]}.
+
+Definition _get_SV57_PTE_PPNi (v : SV57_PTE) : mword 44 :=
+   subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 53 10.
+
+Definition _set_SV57_PTE_PPNi (r_ref : register_ref regstate register_value SV57_PTE) (v : mword 44)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_PTE_SV57_PTE_chunk_0) 53 10 (subrange_vec_dec v 43 0)) ]}
+      : SV57_PTE in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_PTE_PPNi (v : SV57_PTE) (x : mword 44) : SV57_PTE :=
+   {[ v with
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 53 10 (subrange_vec_dec x 43 0)) ]}.
+
+Definition _get_SV57_PTE_RSW (v : SV57_PTE) : mword 2 :=
+   subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 9 8.
+
+Definition _set_SV57_PTE_RSW (r_ref : register_ref regstate register_value SV57_PTE) (v : mword 2)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_PTE_SV57_PTE_chunk_0) 9 8 (subrange_vec_dec v 1 0)) ]}
+      : SV57_PTE in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_PTE_RSW (v : SV57_PTE) (x : mword 2) : SV57_PTE :=
+   {[ v with
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 9 8 (subrange_vec_dec x 1 0)) ]}.
+
+Definition _get_SV57_PTE_BITS (v : SV57_PTE) : mword 8 :=
+   subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 7 0.
+
+Definition _set_SV57_PTE_BITS (r_ref : register_ref regstate register_value SV57_PTE) (v : mword 8)
+: M (unit) :=
+   (reg_deref r_ref) >>= fun r =>
+   let r :=
+     {[ r with
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         (update_subrange_vec_dec r.(SV57_PTE_SV57_PTE_chunk_0) 7 0 (subrange_vec_dec v 7 0)) ]}
+      : SV57_PTE in
+   write_reg r_ref r
+    : M (unit).
+
+Definition _update_SV57_PTE_BITS (v : SV57_PTE) (x : mword 8) : SV57_PTE :=
+   {[ v with
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       (update_subrange_vec_dec v.(SV57_PTE_SV57_PTE_chunk_0) 7 0 (subrange_vec_dec x 7 0)) ]}.
+       
 Definition make_TLB_Entry {asidlen : Z} {valen : Z} {palen : Z} {ptelen : Z}
 (asid : mword asidlen) (global : bool) (vAddr : mword valen) (pAddr : mword palen)
 (pte : mword ptelen) (level : Z) (pteAddr : mword palen) (levelBitSize : Z)
