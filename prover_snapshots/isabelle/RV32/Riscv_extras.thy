@@ -298,6 +298,11 @@ definition plat_enable_pmp  :: \<open> unit \<Rightarrow> bool \<close>  where
      \<open> plat_enable_pmp _ = ( False )\<close>
 
 
+\<comment> \<open>\<open>val plat_misaligned_high_pri : unit -> bool\<close>\<close>
+definition plat_misaligned_high_pri  :: \<open> unit \<Rightarrow> bool \<close>  where 
+     \<open> plat_misaligned_high_pri _ = ( False )\<close>
+
+
 \<comment> \<open>\<open>val plat_mtval_has_illegal_inst_bits : unit -> bool\<close>\<close>
 definition plat_mtval_has_illegal_inst_bits  :: \<open> unit \<Rightarrow> bool \<close>  where 
      \<open> plat_mtval_has_illegal_inst_bits _ = ( False )\<close>

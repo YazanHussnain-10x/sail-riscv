@@ -224,6 +224,11 @@ val _ = Define `
  ((plat_enable_pmp:unit -> bool) () =  F)`;
 
 
+(*val plat_misaligned_high_pri : unit -> bool*)
+val _ = Define `
+ ((plat_misaligned_high_pri:unit -> bool) () =  F)`;
+
+
 (*val plat_mtval_has_illegal_inst_bits : unit -> bool*)
 val _ = Define `
  ((plat_mtval_has_illegal_inst_bits:unit -> bool) () =  F)`;

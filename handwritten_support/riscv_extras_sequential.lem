@@ -193,6 +193,10 @@ val plat_enable_pmp : unit -> bool
 let plat_enable_pmp () = false
 declare ocaml target_rep function plat_enable_pmp = `Platform.enable_pmp`
 
+val plat_misaligned_high_pri : unit -> bool
+let plat_misaligned_high_pri () = false
+declare ocaml target_rep function plat_misaligned_high_pri = `Platform.misaligned_high_pri`
+
 val plat_mtval_has_illegal_inst_bits : unit -> bool
 let plat_mtval_has_illegal_inst_bits () = false
 declare ocaml target_rep function plat_mtval_has_illegal_inst_bits = `Platform.mtval_has_illegal_inst_bits`

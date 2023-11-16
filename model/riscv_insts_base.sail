@@ -385,29 +385,47 @@ function check_misaligned(vaddr : xlenbits, width : word_width) -> bool =
        }
 
 function clause execute(LOAD(imm, rs1, rd, is_unsigned, width, aq, rl)) = {
-  let offset : xlenbits = sign_extend(imm);
+  let offset : xlenbits = EXTS(imm);
   /* Get the address, X(rs1) + offset.
      Some extensions perform additional checks on address validity. */
   match ext_data_get_addr(rs1, offset, Read(Data), width) {
     Ext_DataAddr_Error(e)  => { ext_handle_data_check_error(e); RETIRE_FAIL },
     Ext_DataAddr_OK(vaddr) =>
-      if   check_misaligned(vaddr, width)
-      then { handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL }
-      else match translateAddr(vaddr, Read(Data)) {
-        TR_Failure(e, _) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
-        TR_Address(paddr, _) =>
-          match (width) {
-            BYTE =>
-              process_load(rd, vaddr, mem_read(Read(Data), paddr, 1, aq, rl, false), is_unsigned),
-            HALF =>
-              process_load(rd, vaddr, mem_read(Read(Data), paddr, 2, aq, rl, false), is_unsigned),
-            WORD =>
-              process_load(rd, vaddr, mem_read(Read(Data), paddr, 4, aq, rl, false), is_unsigned),
-            DOUBLE if sizeof(xlen) >= 64 =>
-              process_load(rd, vaddr, mem_read(Read(Data), paddr, 8, aq, rl, false), is_unsigned),
-            _ => report_invalid_width(__FILE__, __LINE__, width, "load")
-          }
+      if plat_misaligned_high_pri() then {
+        if   check_misaligned(vaddr, width)
+        then { handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL }
+        else match translateAddr(vaddr, Read(Data)) {
+          TR_Failure(e, _) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+          TR_Address(paddr, _) =>
+            match (width) {
+              BYTE =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 1, aq, rl, false), is_unsigned),
+              HALF =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 2, aq, rl, false), is_unsigned),
+              WORD =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 4, aq, rl, false), is_unsigned),
+              DOUBLE if sizeof(xlen) >= 64 =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 8, aq, rl, false), is_unsigned),
+              _ => report_invalid_width(__FILE__, __LINE__, width, "load")
+            }
+        }
       }
+      else match translateAddr(vaddr, Read(Data)) {
+          TR_Failure(e, _) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+          TR_Address(paddr, _) =>
+            match (width) {
+              BYTE =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 1, aq, rl, false), is_unsigned),
+              HALF =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 2, aq, rl, false), is_unsigned),
+              WORD =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 4, aq, rl, false), is_unsigned),
+              DOUBLE if sizeof(xlen) >= 64 =>
+                process_load(rd, vaddr, mem_read(Read(Data), paddr, 8, aq, rl, false), is_unsigned),
+              _ => report_invalid_width(__FILE__, __LINE__, width, "load")
+            }
+        }
+
   }
 }
 
@@ -441,44 +459,76 @@ mapping clause encdec = STORE(imm7 @ imm5, rs2, rs1, size, false, false)        
 /* NOTE: Currently, we only EA if address translation is successful.
    This may need revisiting. */
 function clause execute (STORE(imm, rs2, rs1, width, aq, rl)) = {
-  let offset : xlenbits = sign_extend(imm);
+  let offset : xlenbits = EXTS(imm);
   /* Get the address, X(rs1) + offset.
      Some extensions perform additional checks on address validity. */
   match ext_data_get_addr(rs1, offset, Write(Data), width) {
     Ext_DataAddr_Error(e)  => { ext_handle_data_check_error(e); RETIRE_FAIL },
     Ext_DataAddr_OK(vaddr) =>
-      if   check_misaligned(vaddr, width)
-      then { handle_mem_exception(vaddr, E_SAMO_Addr_Align()); RETIRE_FAIL }
-      else match translateAddr(vaddr, Write(Data)) {
-        TR_Failure(e, _)    => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
-        TR_Address(paddr, _) => {
-          let eares : MemoryOpResult(unit) = match width {
-            BYTE   => mem_write_ea(paddr, 1, aq, rl, false),
-            HALF   => mem_write_ea(paddr, 2, aq, rl, false),
-            WORD   => mem_write_ea(paddr, 4, aq, rl, false),
-            DOUBLE => mem_write_ea(paddr, 8, aq, rl, false)
-          };
-          match (eares) {
-            MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
-            MemValue(_) => {
-              let rs2_val = X(rs2);
-              let res : MemoryOpResult(bool) = match (width) {
-                BYTE => mem_write_value(paddr, 1, rs2_val[7..0],  aq, rl, false),
-                HALF => mem_write_value(paddr, 2, rs2_val[15..0], aq, rl, false),
-                WORD => mem_write_value(paddr, 4, rs2_val[31..0], aq, rl, false),
-                DOUBLE if sizeof(xlen) >= 64
-                     => mem_write_value(paddr, 8, rs2_val,        aq, rl, false),
-                _    => report_invalid_width(__FILE__, __LINE__, width, "store"),
-              };
-              match (res) {
-                MemValue(true)  => RETIRE_SUCCESS,
-                MemValue(false) => internal_error(__FILE__, __LINE__, "store got false from mem_write_value"),
-                MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL }
+      if plat_misaligned_high_pri() then {
+        if   check_misaligned(vaddr, width)
+        then { handle_mem_exception(vaddr, E_SAMO_Addr_Align()); RETIRE_FAIL }
+        else match translateAddr(vaddr, Write(Data)) {
+          TR_Failure(e, _)    => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+          TR_Address(paddr, _) => {
+            let eares : MemoryOpResult(unit) = match width {
+              BYTE   => mem_write_ea(paddr, 1, aq, rl, false),
+              HALF   => mem_write_ea(paddr, 2, aq, rl, false),
+              WORD   => mem_write_ea(paddr, 4, aq, rl, false),
+              DOUBLE => mem_write_ea(paddr, 8, aq, rl, false)
+            };
+            match (eares) {
+              MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+              MemValue(_) => {
+                let rs2_val = X(rs2);
+                let res : MemoryOpResult(bool) = match (width) {
+                  BYTE => mem_write_value(paddr, 1, rs2_val[7..0],  aq, rl, false),
+                  HALF => mem_write_value(paddr, 2, rs2_val[15..0], aq, rl, false),
+                  WORD => mem_write_value(paddr, 4, rs2_val[31..0], aq, rl, false),
+                  DOUBLE if sizeof(xlen) >= 64
+                      => mem_write_value(paddr, 8, rs2_val,        aq, rl, false),
+                  _    => report_invalid_width(__FILE__, __LINE__, width, "store"),
+                };
+                match (res) {
+                  MemValue(true)  => RETIRE_SUCCESS,
+                  MemValue(false) => internal_error(__FILE__, __LINE__, "store got false from mem_write_value"),
+                  MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL }
+                }
               }
             }
           }
         }
       }
+      else match translateAddr(vaddr, Write(Data)) {
+          TR_Failure(e, _)    => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+          TR_Address(paddr, _) => {
+            let eares : MemoryOpResult(unit) = match width {
+              BYTE   => mem_write_ea(paddr, 1, aq, rl, false),
+              HALF   => mem_write_ea(paddr, 2, aq, rl, false),
+              WORD   => mem_write_ea(paddr, 4, aq, rl, false),
+              DOUBLE => mem_write_ea(paddr, 8, aq, rl, false)
+            };
+            match (eares) {
+              MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
+              MemValue(_) => {
+                let rs2_val = X(rs2);
+                let res : MemoryOpResult(bool) = match (width) {
+                  BYTE => mem_write_value(paddr, 1, rs2_val[7..0],  aq, rl, false),
+                  HALF => mem_write_value(paddr, 2, rs2_val[15..0], aq, rl, false),
+                  WORD => mem_write_value(paddr, 4, rs2_val[31..0], aq, rl, false),
+                  DOUBLE if sizeof(xlen) >= 64
+                      => mem_write_value(paddr, 8, rs2_val,        aq, rl, false),
+                  _    => report_invalid_width(__FILE__, __LINE__, width, "store"),
+                };
+                match (res) {
+                  MemValue(true)  => RETIRE_SUCCESS,
+                  MemValue(false) => internal_error(__FILE__, __LINE__, "store got false from mem_write_value"),
+                  MemException(e) => { handle_mem_exception(vaddr, e); RETIRE_FAIL }
+                }
+              }
+            }
+          }
+        }
   }
 }
 

@@ -11313,6 +11313,8 @@ Axiom plat_ram_size : forall  (_ : unit) , mword 32.
 
 Axiom plat_enable_pmp : forall  (_ : unit) , bool.
 
+Axiom plat_misaligned_high_pri : forall  (_ : unit) , bool.
+
 Axiom plat_enable_dirty_update : forall  (_ : unit) , bool.
 
 Axiom plat_enable_misaligned_access : forall  (_ : unit) , bool.

@@ -44,6 +44,9 @@ let options = Arg.align ([("-dump-dts",
                           ("-enable-pmp",
                            Arg.Set P.config_enable_pmp,
                            " enable PMP support");
+                          ("-misaligned-high-pri",
+                           Arg.Set P.config_misaligned_high_pri,
+                           " enabling Misaligned fault with high priority");
                           ("-enable-next",
                            Arg.Set P.config_enable_next,
                            " enable N extension");

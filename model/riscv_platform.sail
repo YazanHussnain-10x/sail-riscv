@@ -98,6 +98,11 @@ val plat_enable_pmp = {ocaml: "Platform.enable_pmp",
                        c: "plat_enable_pmp",
                        lem: "plat_enable_pmp"} : unit -> bool
 
+val plat_misaligned_high_pri = {ocaml: "Platform.misaligned_high_pri",
+                       interpreter: "Platform.misaligned_high_pri",
+                       c: "plat_misaligned_high_pri",
+                       lem: "plat_misaligned_high_pri"} : unit -> bool
+
 /* whether the MMU should update dirty bits in PTEs */
 val plat_enable_dirty_update = {ocaml: "Platform.enable_dirty_update",
                                 interpreter: "Platform.enable_dirty_update",

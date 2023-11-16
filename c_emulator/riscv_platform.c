@@ -72,6 +72,11 @@ bool plat_enable_pmp(unit u)
   return rv_enable_pmp;
 }
 
+bool plat_misaligned_high_pri(unit u)
+{
+  return rv_mialigned_high_pri;
+}
+
 mach_bits plat_ram_base(unit u)
 {
   return rv_ram_base;

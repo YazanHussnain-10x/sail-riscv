@@ -120,6 +120,7 @@ static struct option options[] = {
     {"enable-dirty-update",         no_argument,       0, 'd'                     },
     {"enable-misaligned",           no_argument,       0, 'm'                     },
     {"enable-pmp",                  no_argument,       0, 'P'                     },
+    {"misaligned-high-pri",         no_argument,       0, 'M'                     },
     {"enable-next",                 no_argument,       0, 'N'                     },
     {"ram-size",                    required_argument, 0, 'z'                     },
     {"disable-compressed",          no_argument,       0, 'C'                     },
@@ -242,6 +243,7 @@ static int process_args(int argc, char **argv)
                     "d"
                     "m"
                     "P"
+                    "M"
                     "C"
                     "N"
                     "I"
@@ -284,6 +286,10 @@ static int process_args(int argc, char **argv)
     case 'P':
       fprintf(stderr, "enabling PMP support.\n");
       rv_enable_pmp = true;
+      break;
+    case 'M':
+      fprintf(stderr, "enabling Misaligned fault with high priority.\n");
+      rv_mialigned_high_pri = true;
       break;
     case 'C':
       fprintf(stderr, "disabling RVC compressed instructions.\n");
