@@ -385,7 +385,7 @@ function check_misaligned(vaddr : xlenbits, width : word_width) -> bool =
        }
 
 function clause execute(LOAD(imm, rs1, rd, is_unsigned, width, aq, rl)) = {
-  let offset : xlenbits = EXTS(imm);
+  let offset : xlenbits = sign_extend(imm);
   /* Get the address, X(rs1) + offset.
      Some extensions perform additional checks on address validity. */
   match ext_data_get_addr(rs1, offset, Read(Data), width) {
@@ -459,7 +459,7 @@ mapping clause encdec = STORE(imm7 @ imm5, rs2, rs1, size, false, false)        
 /* NOTE: Currently, we only EA if address translation is successful.
    This may need revisiting. */
 function clause execute (STORE(imm, rs2, rs1, width, aq, rl)) = {
-  let offset : xlenbits = EXTS(imm);
+  let offset : xlenbits = sign_extend(imm);
   /* Get the address, X(rs1) + offset.
      Some extensions perform additional checks on address validity. */
   match ext_data_get_addr(rs1, offset, Write(Data), width) {
