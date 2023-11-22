@@ -193,6 +193,14 @@ val plat_enable_pmp : unit -> bool
 let plat_enable_pmp () = false
 declare ocaml target_rep function plat_enable_pmp = `Platform.enable_pmp`
 
+val plat_low_addr : unit -> bool
+let plat_low_addr () = false
+declare ocaml target_rep function plat_low_addr = `Platform.low_addr`
+
+val plat_mis_hipriority : unit -> bool
+let plat_mis_hipriority () = false
+declare ocaml target_rep function plat_mis_hipriority = `Platform.mis_hipriority`
+
 val plat_mtval_has_illegal_inst_bits : unit -> bool
 let plat_mtval_has_illegal_inst_bits () = false
 declare ocaml target_rep function plat_mtval_has_illegal_inst_bits = `Platform.mtval_has_illegal_inst_bits`

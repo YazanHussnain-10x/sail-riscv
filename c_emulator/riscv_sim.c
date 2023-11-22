@@ -132,6 +132,9 @@ static struct option options[] = {
     {"report-arch",                 no_argument,       0, 'a'                     },
     {"test-signature",              required_argument, 0, 'T'                     },
     {"signature-granularity",       required_argument, 0, 'g'                     },
+    {"low-addr",                    no_argument,       0, 'Y'                     }, 
+    {"mis-hipriority",              no_argument,       0, 'Z'                     }, 
+    
 #ifdef RVFI_DII
     {"rvfi-dii",                    required_argument, 0, 'r'                     },
 #endif
@@ -256,6 +259,8 @@ static int process_args(int argc, char **argv)
                     "T:"
                     "g:"
                     "h"
+                    "Y"
+                    "Z"                    
 #ifdef RVFI_DII
                     "r:"
 #endif
@@ -285,6 +290,14 @@ static int process_args(int argc, char **argv)
       fprintf(stderr, "enabling PMP support.\n");
       rv_enable_pmp = true;
       break;
+    case 'Y':
+      fprintf(stderr, "enabling low-addr support.\n");
+      rv_low_addr = true;
+      break; 
+    case 'Z':
+      fprintf(stderr, "enabling high priority misaligned support.\n");
+      rv_mis_hipriority = true;
+      break;         
     case 'C':
       fprintf(stderr, "disabling RVC compressed instructions.\n");
       rv_enable_rvc = false;

@@ -44,6 +44,12 @@ let options = Arg.align ([("-dump-dts",
                           ("-enable-pmp",
                            Arg.Set P.config_enable_pmp,
                            " enable PMP support");
+                          ("-low-addr",
+                           Arg.Set P.config_low_addr,
+                           " enable low-addr support");    
+                          ("-mis-hipriority",
+                           Arg.Set P.config_mis_hipriorityr,
+                           " enable mis-hipriority support");    
                           ("-enable-next",
                            Arg.Set P.config_enable_next,
                            " enable N extension");

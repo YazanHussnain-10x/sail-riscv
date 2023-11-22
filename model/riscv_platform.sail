@@ -98,6 +98,19 @@ val plat_enable_pmp = {ocaml: "Platform.enable_pmp",
                        c: "plat_enable_pmp",
                        lem: "plat_enable_pmp"} : unit -> bool
 
+/* whether the platform supports PMP configurations */
+val plat_low_addr = {ocaml: "Platform.low_addr",
+                       interpreter: "Platform.low_addr",
+                       c: "plat_low_addr",
+                       lem: "plat_low_addr"} : unit -> bool
+
+/* whether the platform supports PMP configurations */
+val plat_mis_hipriority = {ocaml: "Platform.mis_hipriority",
+                       interpreter: "Platform.mis_hipriority",
+                       c: "plat_mis_hipriority",
+                       lem: "plat_mis_hipriority"} : unit -> bool
+
+
 /* whether the MMU should update dirty bits in PTEs */
 val plat_enable_dirty_update = {ocaml: "Platform.enable_dirty_update",
                                 interpreter: "Platform.enable_dirty_update",

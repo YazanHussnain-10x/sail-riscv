@@ -11,6 +11,8 @@ let config_enable_dirty_update         = ref false
 let config_enable_misaligned_access    = ref false
 let config_mtval_has_illegal_inst_bits = ref false
 let config_enable_pmp                  = ref false
+let config_low_addr                    = ref false
+let config_mis_hipriority              = ref false
 let config_enable_writable_fiom        = ref true
 let config_enable_vext                 = ref true
 
@@ -85,6 +87,8 @@ let enable_dirty_update ()           = !config_enable_dirty_update
 let enable_misaligned_access ()      = !config_enable_misaligned_access
 let mtval_has_illegal_inst_bits ()   = !config_mtval_has_illegal_inst_bits
 let enable_pmp ()                    = !config_enable_pmp
+let low_addr ()                      = !config_low_addr
+let mis_hipriority ()                = !config_mis_hipriority
 let enable_zfinx ()                  = false
 let enable_writable_fiom ()          = !config_enable_writable_fiom
 

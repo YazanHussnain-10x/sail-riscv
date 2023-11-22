@@ -297,6 +297,13 @@ definition plat_enable_misaligned_access  :: \<open> unit \<Rightarrow> bool \<c
 definition plat_enable_pmp  :: \<open> unit \<Rightarrow> bool \<close>  where 
      \<open> plat_enable_pmp _ = ( False )\<close>
 
+\<comment> \<open>\<open>val plat_low_addr : unit -> bool\<close>\<close>
+definition plat_low_addr  :: \<open> unit \<Rightarrow> bool \<close>  where 
+     \<open> plat_low_addr _ = ( False )\<close>
+
+\<comment> \<open>\<open>val plat_mis_hipriority : unit -> bool\<close>\<close>
+definition plat_mis_hipriority  :: \<open> unit \<Rightarrow> bool \<close>  where 
+     \<open> plat_mis_hipriority _ = ( False )\<close>
 
 \<comment> \<open>\<open>val plat_mtval_has_illegal_inst_bits : unit -> bool\<close>\<close>
 definition plat_mtval_has_illegal_inst_bits  :: \<open> unit \<Rightarrow> bool \<close>  where 

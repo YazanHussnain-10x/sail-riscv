@@ -392,7 +392,29 @@ function clause execute(LOAD(imm, rs1, rd, is_unsigned, width, aq, rl)) = {
     Ext_DataAddr_Error(e)  => { ext_handle_data_check_error(e); RETIRE_FAIL },
     Ext_DataAddr_OK(vaddr) =>
       if   check_misaligned(vaddr, width)
-      then { handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL }
+      then { 
+       if ( plat_mis_hipriority()) then {
+          handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL
+       } 
+       else{
+        if (plat_low_addr()) then {
+          vaddr_r: xlenbits = ((vaddr >> 2) << 2);
+
+          match translateAddr(vaddr_r, Read(Data)) {
+          TR_Failure(e, _) => { handle_mem_exception(vaddr_r, e); RETIRE_FAIL },
+          TR_Address(paddr, _) =>{
+          match pmpCheck(paddr,8,Read(Data),effectivePrivilege(Read(Data), mstatus, cur_privilege)) {
+            None()  => {handle_mem_exception(vaddr_r, E_Load_Addr_Align()); RETIRE_FAIL},
+            Some(e) => {handle_mem_exception(vaddr_r, e); RETIRE_FAIL}
+          }
+          }}
+        }
+        else {
+          handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL
+        }
+       }
+        
+        }
       else match translateAddr(vaddr, Read(Data)) {
         TR_Failure(e, _) => { handle_mem_exception(vaddr, e); RETIRE_FAIL },
         TR_Address(paddr, _) =>

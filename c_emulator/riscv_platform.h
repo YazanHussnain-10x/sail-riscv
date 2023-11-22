@@ -13,7 +13,8 @@ bool plat_enable_dirty_update(unit);
 bool plat_enable_misaligned_access(unit);
 bool plat_mtval_has_illegal_inst_bits(unit);
 bool plat_enable_pmp(unit);
-
+bool plat_low_addr(unit);
+bool plat_mis_hipriority(unit);
 mach_bits plat_ram_base(unit);
 mach_bits plat_ram_size(unit);
 bool within_phys_mem(mach_bits, sail_int);

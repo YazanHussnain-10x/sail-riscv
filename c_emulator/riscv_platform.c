@@ -62,6 +62,14 @@ bool plat_enable_misaligned_access(unit u)
   return rv_enable_misaligned;
 }
 
+bool plat_low_addr(unit u)
+{
+  return rv_low_addr;
+}
+bool plat_mis_hipriority(unit u)
+{
+  return rv_mis_hipriority;
+}
 bool plat_mtval_has_illegal_inst_bits(unit u)
 {
   return rv_mtval_has_illegal_inst_bits;

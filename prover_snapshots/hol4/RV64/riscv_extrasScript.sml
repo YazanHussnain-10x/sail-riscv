@@ -223,6 +223,13 @@ val _ = Define `
 val _ = Define `
  ((plat_enable_pmp:unit -> bool) () =  F)`;
 
+(*val plat_low_addr : unit -> bool*)
+val _ = Define `
+ ((plat_low_addr:unit -> bool) () =  F)`;
+
+(*val plat_mis_hipriority : unit -> bool*)
+val _ = Define `
+ ((plat_mis_hipriority:unit -> bool) () =  F)`;
 
 (*val plat_mtval_has_illegal_inst_bits : unit -> bool*)
 val _ = Define `
