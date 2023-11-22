@@ -398,19 +398,30 @@ function clause execute(LOAD(imm, rs1, rd, is_unsigned, width, aq, rl)) = {
        } 
        else{
         if (plat_low_addr()) then {
-          vaddr_r: xlenbits = ((vaddr >> 2) << 2);
+          vaddr_L: xlenbits = ((vaddr >> 2) << 2);
 
-          match translateAddr(vaddr_r, Read(Data)) {
-          TR_Failure(e, _) => { handle_mem_exception(vaddr_r, e); RETIRE_FAIL },
-          TR_Address(paddr, _) =>{
-          match pmpCheck(paddr,8,Read(Data),effectivePrivilege(Read(Data), mstatus, cur_privilege)) {
-            None()  => {handle_mem_exception(vaddr_r, E_Load_Addr_Align()); RETIRE_FAIL},
-            Some(e) => {handle_mem_exception(vaddr_r, e); RETIRE_FAIL}
+          match translateAddr(vaddr_L, Read(Data)) {
+            TR_Failure(e, _) => { handle_mem_exception(vaddr_L, e); RETIRE_FAIL },
+            TR_Address(paddr, _) =>{
+              match pmpCheck(paddr,8,Read(Data),effectivePrivilege(Read(Data), mstatus, cur_privilege)) {
+                None()  => {handle_mem_exception(vaddr_L, E_Load_Addr_Align()); RETIRE_FAIL},
+                Some(e) => {handle_mem_exception(vaddr_L, e); RETIRE_FAIL}
+              }
+            }
           }
-          }}
         }
         else {
-          handle_mem_exception(vaddr, E_Load_Addr_Align()); RETIRE_FAIL
+          vaddr_H: xlenbits = (((vaddr >> 2) + 1) << 2);
+
+          match translateAddr(vaddr_H, Read(Data)) {
+            TR_Failure(e, _) => { handle_mem_exception(vaddr_H, e); RETIRE_FAIL },
+            TR_Address(paddr, _) =>{
+              match pmpCheck(paddr,8,Read(Data),effectivePrivilege(Read(Data), mstatus, cur_privilege)) {
+                None()  => {handle_mem_exception(vaddr_H, E_Load_Addr_Align()); RETIRE_FAIL},
+                Some(e) => {handle_mem_exception(vaddr_H, e); RETIRE_FAIL}
+              }
+            }
+          }
         }
        }
         
