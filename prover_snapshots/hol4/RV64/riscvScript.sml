@@ -2328,15 +2328,15 @@ val _ = Define `
     (let l__240 = arg_ in
    if (((l__240 = (( 0 : int):ii)))) then Sbare
    else if (((l__240 = (( 1 : int):ii)))) then Sv32
-   else if (((l__240 = (( 2 : int):ii)))) then Sv39
-   else Sv48))`;
+   else if (((l__240 = (( 3 : int):ii)))) then Sv48
+   else Sv57))`;
 
 
 (*val num_of_SATPMode : SATPMode -> integer*)
 
 val _ = Define `
  ((num_of_SATPMode:SATPMode -> int) arg_=
-    ((case arg_ of   Sbare => (( 0 : int):ii) | Sv32 => (( 1 : int):ii) | Sv39 => (( 2 : int):ii) | Sv48 => (( 3 : int):ii) )))`;
+    ((case arg_ of   Sbare => (( 0 : int):ii) | Sv32 => (( 1 : int):ii) | Sv39 => (( 2 : int):ii) | Sv48 => (( 3 : int):ii) | Sv57 => (( 4 : int):ii) )))`;
 
 
 (*val satp64Mode_of_bits : Architecture -> mword ty4 -> maybe SATPMode*)
@@ -2354,6 +2354,7 @@ val _ = Define `
         | (RV64, b__0) =>
            if (((b__0 = (0x8w :  4 words$word)))) then SOME Sv39
            else if (((b__0 = (0x9w :  4 words$word)))) then SOME Sv48
+           else if (((b__0 = (0xAw :  4 words$word)))) then SOME Sv57
            else (case (RV64, b__0) of   (_, _) => NONE )
         | (_, _) => NONE
         )
@@ -4424,6 +4425,12 @@ val _ = Define `
 
 (*val _update_SV48_Vaddr_bits : SV48_Vaddr -> mword ty48 -> SV48_Vaddr*)
 
+(*val _update_SV57_PTE_bits : SV57_PTE -> mword ty64 -> SV57_PTE*)
+
+(*val _update_SV57_Paddr_bits : SV57_Paddr -> mword ty56 -> SV57_Paddr*)
+
+(*val _update_SV57_Vaddr_bits : SV57_Vaddr -> mword ty57 -> SV57_Vaddr*)
+
 (*val _update_Satp32_bits : Satp32 -> mword ty32 -> Satp32*)
 
 (*val _update_Satp64_bits : Satp64 -> mword ty64 -> Satp64*)
@@ -4480,6 +4487,12 @@ val _ = Define `
 
 (*val _get_SV48_Vaddr_bits : SV48_Vaddr -> mword ty48*)
 
+(*val _get_SV57_PTE_bits : SV57_PTE -> mword ty64*)
+
+(*val _get_SV57_Paddr_bits : SV57_Paddr -> mword ty56*)
+
+(*val _get_SV57_Vaddr_bits : SV57_Vaddr -> mword ty57*)
+
 (*val _get_Satp32_bits : Satp32 -> mword ty32*)
 
 (*val _get_Satp64_bits : Satp64 -> mword ty64*)
@@ -4535,6 +4548,12 @@ val _ = Define `
 (*val _set_SV48_Paddr_bits : register_ref regstate register_value SV48_Paddr -> mword ty56 -> M unit*)
 
 (*val _set_SV48_Vaddr_bits : register_ref regstate register_value SV48_Vaddr -> mword ty48 -> M unit*)
+
+(*val _set_SV57_PTE_bits : register_ref regstate register_value SV57_PTE -> mword ty64 -> M unit*)
+
+(*val _set_SV57_Paddr_bits : register_ref regstate register_value SV57_Paddr -> mword ty56 -> M unit*)
+
+(*val _set_SV57_Vaddr_bits : register_ref regstate register_value SV57_Vaddr -> mword ty57 -> M unit*)
 
 (*val _set_Satp32_bits : register_ref regstate register_value Satp32 -> mword ty32 -> M unit*)
 
@@ -16390,13 +16409,19 @@ val _ = Define `
 
 (*val _update_SV48_Vaddr_VPNi : SV48_Vaddr -> mword ty27 -> SV48_Vaddr*)
 
+(*val _update_SV57_Vaddr_VPNi : SV57_Vaddr -> mword ty27 -> SV57_Vaddr*)
+
 (*val _get_SV39_Vaddr_VPNi : SV39_Vaddr -> mword ty27*)
 
 (*val _get_SV48_Vaddr_VPNi : SV48_Vaddr -> mword ty27*)
 
+(*val _get_SV57_Vaddr_VPNi : SV57_Vaddr -> mword ty27*)
+
 (*val _set_SV39_Vaddr_VPNi : register_ref regstate register_value SV39_Vaddr -> mword ty27 -> M unit*)
 
 (*val _set_SV48_Vaddr_VPNi : register_ref regstate register_value SV48_Vaddr -> mword ty27 -> M unit*)
+
+(*val _set_SV57_Vaddr_VPNi : register_ref regstate register_value SV57_Vaddr -> mword ty27 -> M unit*)
 
 (*val _get_SV32_Vaddr_PgOfs : SV32_Vaddr -> mword ty12*)
 
@@ -16440,6 +16465,10 @@ val _ = Define `
 
 (*val _update_SV48_Vaddr_PgOfs : SV48_Vaddr -> mword ty12 -> SV48_Vaddr*)
 
+(*val _update_SV57_Paddr_PgOfs : SV57_Paddr -> mword ty12 -> SV57_Paddr*)
+
+(*val _update_SV57_Vaddr_PgOfs : SV57_Vaddr -> mword ty12 -> SV57_Vaddr*)
+
 (*val _get_SV32_Paddr_PgOfs : SV32_Paddr -> mword ty12*)
 
 (*val _get_SV39_Paddr_PgOfs : SV39_Paddr -> mword ty12*)
@@ -16450,6 +16479,10 @@ val _ = Define `
 
 (*val _get_SV48_Vaddr_PgOfs : SV48_Vaddr -> mword ty12*)
 
+(*val _get_SV57_Paddr_PgOfs : SV57_Paddr -> mword ty12*)
+
+(*val _get_SV57_Vaddr_PgOfs : SV57_Vaddr -> mword ty12*)
+
 (*val _set_SV32_Paddr_PgOfs : register_ref regstate register_value SV32_Paddr -> mword ty12 -> M unit*)
 
 (*val _set_SV39_Paddr_PgOfs : register_ref regstate register_value SV39_Paddr -> mword ty12 -> M unit*)
@@ -16459,6 +16492,10 @@ val _ = Define `
 (*val _set_SV48_Paddr_PgOfs : register_ref regstate register_value SV48_Paddr -> mword ty12 -> M unit*)
 
 (*val _set_SV48_Vaddr_PgOfs : register_ref regstate register_value SV48_Vaddr -> mword ty12 -> M unit*)
+
+(*val _set_SV57_Paddr_PgOfs : register_ref regstate register_value SV57_Paddr -> mword ty12 -> M unit*)
+
+(*val _set_SV57_Vaddr_PgOfs : register_ref regstate register_value SV57_Vaddr -> mword ty12 -> M unit*)
 
 (*val Mk_SV32_Paddr : mword ty34 -> SV32_Paddr*)
 
@@ -16535,6 +16572,10 @@ val _ = Define `
 
 (*val _update_SV48_Paddr_PPNi : SV48_Paddr -> mword ty44 -> SV48_Paddr*)
 
+(*val _update_SV57_PTE_PPNi : SV57_PTE -> mword ty44 -> SV57_PTE*)
+
+(*val _update_SV57_Paddr_PPNi : SV57_Paddr -> mword ty44 -> SV57_Paddr*)
+
 (*val _get_SV32_PTE_PPNi : SV32_PTE -> mword ty22*)
 
 (*val _get_SV39_PTE_PPNi : SV39_PTE -> mword ty44*)
@@ -16545,6 +16586,10 @@ val _ = Define `
 
 (*val _get_SV48_Paddr_PPNi : SV48_Paddr -> mword ty44*)
 
+(*val _get_SV57_PTE_PPNi : SV57_PTE -> mword ty44*)
+
+(*val _get_SV57_Paddr_PPNi : SV57_Paddr -> mword ty44*)
+
 (*val _set_SV32_PTE_PPNi : register_ref regstate register_value SV32_PTE -> mword ty22 -> M unit*)
 
 (*val _set_SV39_PTE_PPNi : register_ref regstate register_value SV39_PTE -> mword ty44 -> M unit*)
@@ -16554,6 +16599,10 @@ val _ = Define `
 (*val _set_SV48_PTE_PPNi : register_ref regstate register_value SV48_PTE -> mword ty44 -> M unit*)
 
 (*val _set_SV48_Paddr_PPNi : register_ref regstate register_value SV48_Paddr -> mword ty44 -> M unit*)
+
+(*val _set_SV57_PTE_PPNi : register_ref regstate register_value SV57_PTE -> mword ty44 -> M unit*)
+
+(*val _set_SV57_Paddr_PPNi : register_ref regstate register_value SV57_Paddr -> mword ty44 -> M unit*)
 
 val _ = Define `
  ((get_SV32_Paddr_PgOfs:SV32_Paddr ->(12)words$word) v=
@@ -16675,13 +16724,19 @@ val _ = Define `
 
 (*val _update_SV48_PTE_RSW : SV48_PTE -> mword ty2 -> SV48_PTE*)
 
+(*val _update_SV57_PTE_RSW : SV57_PTE -> mword ty2 -> SV57_PTE*)
+
 (*val _get_SV39_PTE_RSW : SV39_PTE -> mword ty2*)
 
 (*val _get_SV48_PTE_RSW : SV48_PTE -> mword ty2*)
 
+(*val _get_SV57_PTE_RSW : SV57_PTE -> mword ty2*)
+
 (*val _set_SV39_PTE_RSW : register_ref regstate register_value SV39_PTE -> mword ty2 -> M unit*)
 
 (*val _set_SV48_PTE_RSW : register_ref regstate register_value SV48_PTE -> mword ty2 -> M unit*)
+
+(*val _set_SV57_PTE_RSW : register_ref regstate register_value SV57_PTE -> mword ty2 -> M unit*)
 
 (*val _get_SV32_PTE_BITS : SV32_PTE -> mword ty8*)
 
@@ -16718,13 +16773,19 @@ val _ = Define `
 
 (*val _update_SV48_PTE_BITS : SV48_PTE -> mword ty8 -> SV48_PTE*)
 
+(*val _update_SV57_PTE_BITS : SV57_PTE -> mword ty8 -> SV57_PTE*)
+
 (*val _get_SV39_PTE_BITS : SV39_PTE -> mword ty8*)
 
 (*val _get_SV48_PTE_BITS : SV48_PTE -> mword ty8*)
 
+(*val _get_SV57_PTE_BITS : SV57_PTE -> mword ty8*)
+
 (*val _set_SV39_PTE_BITS : register_ref regstate register_value SV39_PTE -> mword ty8 -> M unit*)
 
 (*val _set_SV48_PTE_BITS : register_ref regstate register_value SV48_PTE -> mword ty8 -> M unit*)
+
+(*val _set_SV57_PTE_BITS : register_ref regstate register_value SV57_PTE -> mword ty8 -> M unit*)
 
 (*val curAsid64 : mword ty64 -> mword ty16*)
 
@@ -17320,6 +17381,11 @@ val _ = Define `
            ((subrange_vec_dec x (( 9 : int):ii) (( 0 : int):ii)  :  10 words$word))
           :  64 words$word)) |>)))`;
 
+(*val _update_SV57_PTE_Ext : SV57_PTE -> mword ty10 -> SV57_PTE*)
+
+(*val _get_SV57_PTE_Ext : SV57_PTE -> mword ty10*)
+
+(*val _set_SV57_PTE_Ext : register_ref regstate register_value SV57_PTE -> mword ty10 -> M unit*)
 
 val _ = Define `
  ((get_SV48_PTE_PPNi:SV48_PTE ->(44)words$word) v=
@@ -17396,6 +17462,325 @@ val _ = Define `
            ((subrange_vec_dec x (( 7 : int):ii) (( 0 : int):ii)  :  8 words$word))
           :  64 words$word)) |>)))`;
 
+val _ = Define `
+((SV57_LEVEL_BITS:int)=  ((( 9 : int):ii)))`;
+
+
+val _ = Define `
+((SV57_LEVELS:int)=  ((( 5 : int):ii)))`;
+
+
+val _ = Define `
+((PTE57_LOG_SIZE:int)=  ((( 3 : int):ii)))`;
+
+
+val _ = Define `
+((PTE57_SIZE:int)=  ((( 8 : int):ii)))`;
+
+
+(*val Mk_SV57_Vaddr : mword ty57 -> SV57_Vaddr*)
+
+val _ = Define `
+ ((Mk_SV57_Vaddr:(57)words$word -> SV57_Vaddr) v=
+    (<| SV57_Vaddr_SV57_Vaddr_chunk_0 := ((subrange_vec_dec v (( 56 : int):ii) (( 0 : int):ii)  :  57 words$word)) |>))`;
+
+
+val _ = Define `
+ ((get_SV57_Vaddr_bits:SV57_Vaddr ->(57)words$word) v=
+    ((subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 56 : int):ii) (( 0 : int):ii)  :  57 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Vaddr_bits:((regstate),(register_value),(SV57_Vaddr))register_ref ->(57)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 56 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 56 : int):ii) (( 0 : int):ii)  :  57 words$word))
+            :  57 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Vaddr_bits:SV57_Vaddr ->(57)words$word -> SV57_Vaddr) v x=
+    (( v with<|
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 56 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 56 : int):ii) (( 0 : int):ii)  :  57 words$word))
+          :  57 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_Vaddr_VPNi:SV57_Vaddr ->(27)words$word) v=
+    ((subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 38 : int):ii) (( 12 : int):ii)  :  27 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Vaddr_VPNi:((regstate),(register_value),(SV57_Vaddr))register_ref ->(27)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 38 : int):ii) (( 12 : int):ii)
+             ((subrange_vec_dec v (( 26 : int):ii) (( 0 : int):ii)  :  27 words$word))
+            :  57 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Vaddr_VPNi:SV57_Vaddr ->(27)words$word -> SV57_Vaddr) v x=
+    (( v with<|
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 38 : int):ii) (( 12 : int):ii)
+           ((subrange_vec_dec x (( 26 : int):ii) (( 0 : int):ii)  :  27 words$word))
+          :  57 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_Vaddr_PgOfs:SV57_Vaddr ->(12)words$word) v=
+    ((subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Vaddr_PgOfs:((regstate),(register_value),(SV57_Vaddr))register_ref ->(12)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word))
+            :  57 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Vaddr_PgOfs:SV57_Vaddr ->(12)words$word -> SV57_Vaddr) v x=
+    (( v with<|
+     SV57_Vaddr_SV57_Vaddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Vaddr_SV57_Vaddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word))
+          :  57 words$word)) |>)))`;
+
+
+(*val Mk_SV57_Paddr : mword ty56 -> SV57_Paddr*)
+
+val _ = Define `
+ ((Mk_SV57_Paddr:(56)words$word -> SV57_Paddr) v=
+    (<| SV57_Paddr_SV57_Paddr_chunk_0 := ((subrange_vec_dec v (( 55 : int):ii) (( 0 : int):ii)  :  56 words$word)) |>))`;
+
+
+val _ = Define `
+ ((get_SV57_Paddr_bits:SV57_Paddr ->(56)words$word) v=
+    ((subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 0 : int):ii)  :  56 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Paddr_bits:((regstate),(register_value),(SV57_Paddr))register_ref ->(56)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 55 : int):ii) (( 0 : int):ii)  :  56 words$word))
+            :  56 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Paddr_bits:SV57_Paddr ->(56)words$word -> SV57_Paddr) v x=
+    (( v with<|
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 55 : int):ii) (( 0 : int):ii)  :  56 words$word))
+          :  56 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_Paddr_PPNi:SV57_Paddr ->(44)words$word) v=
+    ((subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 12 : int):ii)  :  44 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Paddr_PPNi:((regstate),(register_value),(SV57_Paddr))register_ref ->(44)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 12 : int):ii)
+             ((subrange_vec_dec v (( 43 : int):ii) (( 0 : int):ii)  :  44 words$word))
+            :  56 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Paddr_PPNi:SV57_Paddr ->(44)words$word -> SV57_Paddr) v x=
+    (( v with<|
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 55 : int):ii) (( 12 : int):ii)
+           ((subrange_vec_dec x (( 43 : int):ii) (( 0 : int):ii)  :  44 words$word))
+          :  56 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_Paddr_PgOfs:SV57_Paddr ->(12)words$word) v=
+    ((subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_Paddr_PgOfs:((regstate),(register_value),(SV57_Paddr))register_ref ->(12)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_Paddr_SV57_Paddr_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_Paddr_SV57_Paddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word))
+            :  56 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_Paddr_PgOfs:SV57_Paddr ->(12)words$word -> SV57_Paddr) v x=
+    (( v with<|
+     SV57_Paddr_SV57_Paddr_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_Paddr_SV57_Paddr_chunk_0 (( 11 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 11 : int):ii) (( 0 : int):ii)  :  12 words$word))
+          :  56 words$word)) |>)))`;
+
+
+(*val Mk_SV57_PTE : mword ty64 -> SV57_PTE*)
+
+val _ = Define `
+ ((Mk_SV57_PTE:(64)words$word -> SV57_PTE) v=
+    (<| SV57_PTE_SV57_PTE_chunk_0 := ((subrange_vec_dec v (( 63 : int):ii) (( 0 : int):ii)  :  64 words$word)) |>))`;
+
+
+val _ = Define `
+ ((get_SV57_PTE_bits:SV57_PTE ->(64)words$word) v=
+    ((subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 0 : int):ii)  :  64 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_PTE_bits:((regstate),(register_value),(SV57_PTE))register_ref ->(64)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 63 : int):ii) (( 0 : int):ii)  :  64 words$word))
+            :  64 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_PTE_bits:SV57_PTE ->(64)words$word -> SV57_PTE) v x=
+    (( v with<|
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 63 : int):ii) (( 0 : int):ii)  :  64 words$word))
+          :  64 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_PTE_Ext:SV57_PTE ->(10)words$word) v=
+    ((subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 54 : int):ii)  :  10 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_PTE_Ext:((regstate),(register_value),(SV57_PTE))register_ref ->(10)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 54 : int):ii)
+             ((subrange_vec_dec v (( 9 : int):ii) (( 0 : int):ii)  :  10 words$word))
+            :  64 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_PTE_Ext:SV57_PTE ->(10)words$word -> SV57_PTE) v x=
+    (( v with<|
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 63 : int):ii) (( 54 : int):ii)
+           ((subrange_vec_dec x (( 9 : int):ii) (( 0 : int):ii)  :  10 words$word))
+          :  64 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_PTE_PPNi:SV57_PTE ->(44)words$word) v=
+    ((subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 53 : int):ii) (( 10 : int):ii)  :  44 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_PTE_PPNi:((regstate),(register_value),(SV57_PTE))register_ref ->(44)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_PTE_SV57_PTE_chunk_0 (( 53 : int):ii) (( 10 : int):ii)
+             ((subrange_vec_dec v (( 43 : int):ii) (( 0 : int):ii)  :  44 words$word))
+            :  64 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_PTE_PPNi:SV57_PTE ->(44)words$word -> SV57_PTE) v x=
+    (( v with<|
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 53 : int):ii) (( 10 : int):ii)
+           ((subrange_vec_dec x (( 43 : int):ii) (( 0 : int):ii)  :  44 words$word))
+          :  64 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_PTE_RSW:SV57_PTE ->(2)words$word) v=  ((subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 9 : int):ii) (( 8 : int):ii)  :  2 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_PTE_RSW:((regstate),(register_value),(SV57_PTE))register_ref ->(2)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_PTE_SV57_PTE_chunk_0 (( 9 : int):ii) (( 8 : int):ii)
+             ((subrange_vec_dec v (( 1 : int):ii) (( 0 : int):ii)  :  2 words$word))
+            :  64 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_PTE_RSW:SV57_PTE ->(2)words$word -> SV57_PTE) v x=
+    (( v with<|
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 9 : int):ii) (( 8 : int):ii)
+           ((subrange_vec_dec x (( 1 : int):ii) (( 0 : int):ii)  :  2 words$word))
+          :  64 words$word)) |>)))`;
+
+
+val _ = Define `
+ ((get_SV57_PTE_BITS:SV57_PTE ->(8)words$word) v=  ((subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 7 : int):ii) (( 0 : int):ii)  :  8 words$word)))`;
+
+
+val _ = Define `
+ ((set_SV57_PTE_BITS:((regstate),(register_value),(SV57_PTE))register_ref ->(8)words$word ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) r_ref v=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS r_ref) (\ r . 
+   let r =
+     (( r with<|
+       SV57_PTE_SV57_PTE_chunk_0 :=
+         ((update_subrange_vec_dec r.SV57_PTE_SV57_PTE_chunk_0 (( 7 : int):ii) (( 0 : int):ii)
+             ((subrange_vec_dec v (( 7 : int):ii) (( 0 : int):ii)  :  8 words$word))
+            :  64 words$word)) |>)) in
+   sail2_state_monad$write_regS r_ref r)))`;
+
+
+val _ = Define `
+ ((update_SV57_PTE_BITS:SV57_PTE ->(8)words$word -> SV57_PTE) v x=
+    (( v with<|
+     SV57_PTE_SV57_PTE_chunk_0 :=
+       ((update_subrange_vec_dec v.SV57_PTE_SV57_PTE_chunk_0 (( 7 : int):ii) (( 0 : int):ii)
+           ((subrange_vec_dec x (( 7 : int):ii) (( 0 : int):ii)  :  8 words$word))
+          :  64 words$word)) |>)))`;
 
 (*val make_TLB_Entry : forall 'asidlen 'palen 'ptelen 'valen. Size 'asidlen, Size 'palen, Size 'ptelen, Size 'valen => mword 'asidlen -> bool -> mword 'valen -> mword 'palen -> mword 'ptelen -> ii -> mword 'palen -> ii -> M (TLB_Entry 'asidlen 'valen 'palen 'ptelen)*)
 
@@ -17815,6 +18200,168 @@ val _ = Define `
 val _ = Define `
  ((init_vmem_sv48:unit ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) () =  (sail2_state_monad$write_regS tlb48_ref NONE))`;
 
+(*val walk57 : mword ty57 -> AccessType unit -> Privilege -> bool -> bool -> mword ty56 -> ii -> bool -> unit -> M (PTW_Result (mword ty56) SV57_PTE)*)
+
+ val walk57_defn = Hol_defn "walk57" `
+ ((walk57:(57)words$word ->(unit)AccessType -> Privilege -> bool -> bool ->(56)words$word -> int -> bool -> unit ->(regstate)sail2_state_monad$sequential_state ->((((((56)words$word),(SV57_PTE))PTW_Result),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) vaddr ac priv mxr do_sum ptb level global ext_ptw=
+    (let va = (Mk_SV57_Vaddr vaddr) in
+   let (pt_ofs : paddr64) =
+     ((shiftl
+        ((EXTZ (( 56 : int):ii)
+            ((subrange_vec_dec
+                ((shiftr ((get_SV57_Vaddr_VPNi va  :  27 words$word))
+                    ((level * SV57_LEVEL_BITS))
+                   :  27 words$word)) ((SV57_LEVEL_BITS - (( 1 : int):ii))) (( 0 : int):ii)
+               :  9 words$word))
+           :  56 words$word)) PTE57_LOG_SIZE
+       :  56 words$word)) in
+   let pte_addr = ((add_vec ptb pt_ofs  :  56 words$word)) in sail2_state_monad$bindS
+   (mem_read_priv (Read Data) Supervisor ((EXTZ (( 64 : int):ii) pte_addr  :  64 words$word)) (( 8 : int):ii) F F
+      F
+     : ( ( 64 words$word)MemoryOpResult) M) (\ (w__0 : ( 64 words$word) MemoryOpResult) . 
+   (case w__0 of
+     MemException (_) => sail2_state_monad$returnS (PTW_Failure (PTW_Access () , ext_ptw))
+   | MemValue (v) =>
+      let pte = (Mk_SV57_PTE v) in
+      let pbits = ((get_SV57_PTE_BITS pte  :  8 words$word)) in
+      let ext_pte = ((get_SV57_PTE_Ext pte  :  10 words$word)) in
+      let pattr = (Mk_PTE_Bits pbits) in
+      let is_global =
+        (global \/ (((((get_PTE_Bits_G pattr  :  1 words$word)) = (0b1w :  1 words$word))))) in
+      if ((isInvalidPTE pbits ext_pte)) then sail2_state_monad$returnS (PTW_Failure (PTW_Invalid_PTE () , ext_ptw))
+      else if ((isPTEPtr pbits ext_pte)) then
+        if ((level > (( 0 : int):ii))) then
+          (walk57 vaddr ac priv mxr do_sum
+             ((shiftl ((EXTZ (( 56 : int):ii) ((get_SV57_PTE_PPNi pte  :  44 words$word))  :  56 words$word))
+                 PAGESIZE_BITS
+                :  56 words$word)) ((level - (( 1 : int):ii))) is_global ext_ptw
+            : ( (( 56 words$word), SV57_PTE)PTW_Result) M)
+        else sail2_state_monad$returnS (PTW_Failure (PTW_Invalid_PTE () , ext_ptw))
+      else sail2_state_monad$bindS
+        (checkPTEPermission ac priv mxr do_sum pattr ext_pte ext_ptw) (\ (w__3 : PTE_Check) . 
+        sail2_state_monad$returnS ((case w__3 of
+          PTE_Check_Failure ((ext_ptw, ext_ptw_fail)) =>
+           PTW_Failure (ext_get_ptw_error ext_ptw_fail, ext_ptw)
+        | PTE_Check_Success (ext_ptw) =>
+           if ((level > (( 0 : int):ii))) then
+             let mask =
+               ((sub_vec_int
+                  ((shiftl
+                      ((xor_vec ((get_SV57_PTE_PPNi pte  :  44 words$word))
+                          ((xor_vec ((get_SV57_PTE_PPNi pte  :  44 words$word))
+                              ((EXTZ (( 44 : int):ii) (0b1w :  1 words$word)  :  44 words$word))
+                             :  44 words$word))
+                         :  44 words$word)) ((level * SV57_LEVEL_BITS))
+                     :  44 words$word)) (( 1 : int):ii)
+                 :  44 words$word)) in
+             if (((((and_vec ((get_SV57_PTE_PPNi pte  :  44 words$word)) mask  :  44 words$word)) <> ((EXTZ (( 44 : int):ii) (0b0w :  1 words$word)  :  44 words$word))))) then
+               PTW_Failure (PTW_Misaligned () , ext_ptw)
+             else
+               let ppn =
+                 ((or_vec ((get_SV57_PTE_PPNi pte  :  44 words$word))
+                    ((and_vec
+                        ((EXTZ (( 44 : int):ii) ((get_SV57_Vaddr_VPNi va  :  27 words$word))  :  44 words$word))
+                        mask
+                       :  44 words$word))
+                   :  44 words$word)) in
+               PTW_Success ((concat_vec ppn ((get_SV57_Vaddr_PgOfs va  :  12 words$word))  :  56 words$word),
+                            pte,
+                            pte_addr,
+                            level,
+                            is_global,
+                            ext_ptw)
+           else
+             PTW_Success ((concat_vec ((get_SV57_PTE_PPNi pte  :  44 words$word))
+                             ((get_SV57_Vaddr_PgOfs va  :  12 words$word))
+                            :  56 words$word),
+                          pte,
+                          pte_addr,
+                          level,
+                          is_global,
+                          ext_ptw)
+        )))
+   ))))`;
+
+val _ = Lib.with_flag (computeLib.auto_import_definitions, false) Defn.save_defn walk57_defn;
+
+(*val lookup_TLB57 : mword ty16 -> mword ty57 -> M (maybe ((ii * TLB_Entry ty16 ty57 ty56 ty64)))*)
+
+val _ = Define `
+ ((lookup_TLB57:(16)words$word ->(57)words$word ->(regstate)sail2_state_monad$sequential_state ->((((int#((16),(57),(56),(64))TLB_Entry)option),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) asid vaddr=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS tlb57_ref) (\ (w__0 :  ( (16, 57, 56, 64)TLB_Entry)option) . 
+   sail2_state_monad$returnS ((case w__0 of
+     NONE => NONE
+   | SOME (e) => if ((match_TLB_Entry e asid vaddr)) then SOME ((( 0 : int):ii), e) else NONE
+   )))))`;
+
+
+(*val add_to_TLB57 : mword ty16 -> mword ty57 -> mword ty56 -> SV57_PTE -> mword ty56 -> ii -> bool -> M unit*)
+
+val _ = Define `
+ ((add_to_TLB57:(16)words$word ->(57)words$word ->(56)words$word -> SV57_PTE ->(56)words$word -> int -> bool ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) asid vAddr pAddr pte pteAddr level global=  (sail2_state_monad$bindS
+   (make_TLB_Entry asid global vAddr pAddr ((get_SV57_PTE_bits pte  :  64 words$word)) level pteAddr
+     SV57_LEVEL_BITS) (\ (ent : TLB57_Entry) . 
+   sail2_state_monad$write_regS tlb57_ref (SOME ent))))`;
+
+
+(*val write_TLB57 : ii -> TLB_Entry ty16 ty57 ty56 ty64 -> M unit*)
+
+val _ = Define `
+ ((write_TLB57:int ->((16),(57),(56),(64))TLB_Entry ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) (idx : ii) (ent : TLB57_Entry)=  (sail2_state_monad$write_regS tlb57_ref (SOME ent)))`;
+
+
+(*val flush_TLB57 : maybe (mword ty16) -> maybe (mword ty57) -> M unit*)
+
+val _ = Define `
+ ((flush_TLB57:((16)words$word)option ->((57)words$word)option ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) asid addr=  (sail2_state_monad$bindS
+   (sail2_state_monad$read_regS tlb57_ref) (\ (w__0 :  ( (16, 57, 56, 64)TLB_Entry)option) . 
+   (case w__0 of
+     NONE => sail2_state_monad$returnS () 
+   | SOME (e) => if ((flush_TLB_Entry e asid addr)) then sail2_state_monad$write_regS tlb57_ref NONE else sail2_state_monad$returnS () 
+   ))))`;
+
+
+(*val translate57 : mword ty16 -> mword ty56 -> mword ty57 -> AccessType unit -> Privilege -> bool -> bool -> ii -> unit -> M (TR_Result (mword ty56) PTW_Error)*)
+
+val _ = Define `
+ ((translate57:(16)words$word ->(56)words$word ->(57)words$word ->(unit)AccessType -> Privilege -> bool -> bool -> int -> unit ->(regstate)sail2_state_monad$sequential_state ->((((((56)words$word),(PTW_Error))TR_Result),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) asid ptb vAddr ac priv mxr do_sum level ext_ptw=  (sail2_state_monad$bindS
+   (walk57 vAddr ac priv mxr do_sum ptb level F ext_ptw  : ( (( 56 words$word), SV57_PTE)PTW_Result) M) (\ (w__0 : (( 56 words$word), SV57_PTE)
+     PTW_Result) . 
+   (case w__0 of
+     PTW_Failure ((f, ext_ptw)) => sail2_state_monad$returnS (TR_Failure (f, ext_ptw))
+   | PTW_Success ((pAddr, pte, pteAddr, level, global, ext_ptw)) =>
+      (case ((update_PTE_Bits ((Mk_PTE_Bits ((get_SV57_PTE_BITS pte  :  8 words$word)))) ac
+                ((get_SV57_PTE_Ext pte  :  10 words$word))
+               :  ((PTE_Bits #  10 words$word))option)) of
+        NONE => sail2_state_monad$seqS
+         (add_to_TLB57 asid vAddr pAddr pte pteAddr level global)
+         (sail2_state_monad$returnS (TR_Address (pAddr, ext_ptw)))
+      | SOME ((pbits, ext)) =>
+         if ((~ ((plat_enable_dirty_update () )))) then
+           sail2_state_monad$returnS (TR_Failure (PTW_PTE_Update () , ext_ptw))
+         else
+           let (w_pte : SV57_PTE) =
+             (update_SV57_PTE_BITS pte ((get_PTE_Bits_bits pbits  :  8 words$word))) in
+           let (w_pte : SV57_PTE) = (update_SV57_PTE_Ext w_pte ext) in sail2_state_monad$bindS
+           (mem_write_value_priv ((EXTZ (( 64 : int):ii) pteAddr  :  64 words$word)) (( 8 : int):ii)
+             ((get_SV57_PTE_bits w_pte  :  64 words$word)) Supervisor F F F) (\ (w__1 : bool
+             MemoryOpResult) . 
+           (case w__1 of
+             MemValue (_) => sail2_state_monad$seqS
+              (add_to_TLB57 asid vAddr pAddr w_pte pteAddr level global)
+              (sail2_state_monad$returnS (TR_Address (pAddr, ext_ptw)))
+           | MemException (e) => sail2_state_monad$returnS (TR_Failure (PTW_Access () , ext_ptw))
+           ))
+      )
+   ))))`;
+
+
+(*val init_vmem_sv57 : unit -> M unit*)
+
+val _ = Define `
+ ((init_vmem_sv57:unit ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) () =  (sail2_state_monad$write_regS tlb57_ref NONE))`;
+
+
 
 (*val legalize_satp : Architecture -> mword ty64 -> mword ty64 -> mword ty64*)
 
@@ -17840,6 +18387,13 @@ val _ = Define `
         (ones (((((( 63 : int):ii) - (( 48 : int):ii))) + (( 1 : int):ii)))  :  16 words$word)
       else (zeros_implicit (((((( 63 : int):ii) - (( 48 : int):ii))) + (( 1 : int):ii)))  :  16 words$word))))`;
 
+(*val isValidSv57Addr : mword ty64 -> bool*)
+
+val _ = Define `
+ ((isValidSv57Addr:(64)words$word -> bool) vAddr=
+    (((subrange_vec_dec vAddr (( 63 : int):ii) (( 57 : int):ii)  :  16 words$word)) = (if (((((access_vec_dec vAddr (( 56 : int):ii))) = B1))) then
+        (ones (((((( 63 : int):ii) - (( 57 : int):ii))) + (( 1 : int):ii)))  :  16 words$word)
+      else (zeros_implicit (((((( 63 : int):ii) - (( 57 : int):ii))) + (( 1 : int):ii)))  :  16 words$word))))`;
 
 (*val translationMode : Privilege -> M SATPMode*)
 
@@ -17902,6 +18456,16 @@ val _ = Define `
         | TR_Failure ((f, ext_ptw)) => TR_Failure (translationException ac f, ext_ptw)
         )))
       else sail2_state_monad$returnS (TR_Failure (translationException ac (PTW_Invalid_Addr () ), ext_ptw))
+   | Sv57 =>
+      if ((isValidSv57Addr vAddr)) then sail2_state_monad$bindS
+        (translate57 asid ptb ((subrange_vec_dec vAddr (( 56 : int):ii) (( 0 : int):ii)  :  57 words$word)) ac effPriv mxr
+           do_sum ((SV57_LEVELS - (( 1 : int):ii))) ext_ptw
+          : ( (( 56 words$word), PTW_Error)TR_Result) M) (\ (w__6 : (( 56 words$word), PTW_Error) TR_Result) . 
+        sail2_state_monad$returnS ((case w__6 of
+          TR_Address ((pa, ext_ptw)) => TR_Address ((EXTZ (( 64 : int):ii) pa  :  64 words$word), ext_ptw)
+        | TR_Failure ((f, ext_ptw)) => TR_Failure (translationException ac f, ext_ptw)
+        )))
+      else sail2_state_monad$returnS (TR_Failure (translationException ac (PTW_Invalid_Addr () ), ext_ptw))
    | _ =>
       (internal_error "unsupported address translation scheme"
         : ( (( 64 words$word), ExceptionType)TR_Result) M)
@@ -17940,7 +18504,7 @@ val _ = Define `
 (*val init_vmem : unit -> M unit*)
 
 val _ = Define `
- ((init_vmem:unit ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) () =  (sail2_state_monad$seqS (init_vmem_sv39 () ) (init_vmem_sv48 () )))`;
+ ((init_vmem:unit ->(regstate)sail2_state_monad$sequential_state ->(((unit),(exception))sail2_state_monad$result#(regstate)sail2_state_monad$sequential_state)set) () =  (sail2_state_monad$seqS (init_vmem_sv39 () ) (init_vmem_sv48 () ) (init_vmem_sv57 () )))`;
 
 
 (*val execute : ast -> M Retired*)

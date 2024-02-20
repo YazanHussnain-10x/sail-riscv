@@ -372,7 +372,7 @@ datatype ExtStatus =   Off | Initial | Clean | Dirty
 
 type_synonym satp_mode  =" 4 bits "
 
-datatype SATPMode =   Sbare | Sv32 | Sv39 | Sv48
+datatype SATPMode =   Sbare | Sv32 | Sv39 | Sv48 | Sv57
 
 
 
@@ -520,6 +520,21 @@ record SV48_Vaddr  =
 
 
 
+record SV57_PTE  = 
+ SV57_PTE_bits ::"  64 Word.word "  
+
+
+
+record SV57_Paddr  = 
+ SV57_Paddr_bits ::"  56 Word.word "  
+
+
+
+record SV57_Vaddr  = 
+ SV57_Vaddr_bits ::"  57 Word.word "  
+
+
+
 record Satp32  = 
  Satp32_bits ::"  32 Word.word "  
 
@@ -664,7 +679,11 @@ type_synonym vaddr39  =" 39 bits "
 
 type_synonym vaddr48  =" 48 bits "
 
+type_synonym vaddr57  =" 57 bits "
+
 type_synonym pte48  =" 64 bits "
+
+type_synonym pte57  =" 64 bits "
 
 datatype( 'paddr, 'pte) PTW_Result =
     PTW_Success " (('paddr * 'pte * 'paddr * ii * bool * ext_ptw))"
