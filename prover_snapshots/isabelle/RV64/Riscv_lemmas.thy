@@ -7,7 +7,7 @@ begin
 
 abbreviation liftS ("\<lbrakk>_\<rbrakk>\<^sub>S") where "liftS \<equiv> liftState (get_regval, set_regval)"
 
-lemmas register_defs = get_regval_def set_regval_def satp_ref_def tlb48_ref_def tlb39_ref_def
+lemmas register_defs = get_regval_def set_regval_def satp_ref_def tlb57_ref_def tlb48_ref_def tlb39_ref_def
   htif_payload_writes_ref_def htif_cmd_write_ref_def htif_exit_code_ref_def htif_done_ref_def
   htif_tohost_ref_def mtimecmp_ref_def fcsr_ref_def f31_ref_def f30_ref_def f29_ref_def f28_ref_def
   f27_ref_def f26_ref_def f25_ref_def f24_ref_def f23_ref_def f22_ref_def f21_ref_def f20_ref_def
@@ -143,6 +143,14 @@ lemma liftS_read_reg_satp[liftState_simp]:
 
 lemma liftS_write_reg_satp[liftState_simp]:
   "\<lbrakk>write_reg satp_ref v\<rbrakk>\<^sub>S = write_regS satp_ref v"
+  by (intro liftState_write_reg) (auto simp: register_defs)
+
+lemma liftS_read_reg_tlb57[liftState_simp]:
+  "\<lbrakk>read_reg tlb57_ref\<rbrakk>\<^sub>S = read_regS tlb57_ref"
+  by (intro liftState_read_reg) (auto simp: register_defs)
+
+lemma liftS_write_reg_tlb57[liftState_simp]:
+  "\<lbrakk>write_reg tlb57_ref v\<rbrakk>\<^sub>S = write_regS tlb57_ref v"
   by (intro liftState_write_reg) (auto simp: register_defs)
 
 lemma liftS_read_reg_tlb48[liftState_simp]:

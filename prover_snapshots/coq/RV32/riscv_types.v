@@ -419,7 +419,7 @@ Decidable_eq_from_dec ExtStatus_eq_dec.
 
 Definition satp_mode  : Type := bits 4.
 
-Inductive SATPMode := Sbare | Sv32 | Sv39 | Sv48.
+Inductive SATPMode := Sbare | Sv32 | Sv39 | Sv48 | Sv57.
 Scheme Equality for SATPMode.
 Instance Decidable_eq_SATPMode :
 forall (x y : SATPMode), Decidable (x = y) :=
@@ -576,6 +576,21 @@ Record SV48_Vaddr  := { SV48_Vaddr_SV48_Vaddr_chunk_0 : mword 48; }.
 Arguments SV48_Vaddr : clear implicits.
 Notation "{[ r 'with' 'SV48_Vaddr_SV48_Vaddr_chunk_0' := e ]}" :=
   {| SV48_Vaddr_SV48_Vaddr_chunk_0 := e |} (only parsing).
+
+Record SV57_PTE  := { SV57_PTE_SV57_PTE_chunk_0 : mword 64; }.
+Arguments SV57_PTE : clear implicits.
+Notation "{[ r 'with' 'SV57_PTE_SV57_PTE_chunk_0' := e ]}" :=
+  {| SV57_PTE_SV57_PTE_chunk_0 := e |} (only parsing).
+
+Record SV57_Paddr  := { SV57_Paddr_SV57_Paddr_chunk_0 : mword 56; }.
+Arguments SV57_Paddr : clear implicits.
+Notation "{[ r 'with' 'SV57_Paddr_SV57_Paddr_chunk_0' := e ]}" :=
+  {| SV57_Paddr_SV57_Paddr_chunk_0 := e |} (only parsing).
+
+Record SV57_Vaddr  := { SV57_Vaddr_SV57_Vaddr_chunk_0 : mword 57; }.
+Arguments SV57_Vaddr : clear implicits.
+Notation "{[ r 'with' 'SV57_Vaddr_SV57_Vaddr_chunk_0' := e ]}" :=
+  {| SV57_Vaddr_SV57_Vaddr_chunk_0 := e |} (only parsing).
 
 Record Satp32  := { Satp32_Satp32_chunk_0 : mword 32; }.
 Arguments Satp32 : clear implicits.
@@ -736,7 +751,11 @@ Definition vaddr39  : Type := bits 39.
 
 Definition vaddr48  : Type := bits 48.
 
+Definition vaddr57  : Type := bits 57.
+
 Definition pte48  : Type := bits 64.
+
+Definition pte57  : Type := bits 64.
 
 Inductive PTW_Result {paddr : Type} {pte : Type} :=
   | PTW_Success : (paddr * pte * paddr * {n : Z & ArithFact (n >=? 0)} * bool * ext_ptw) -> PTW_Result

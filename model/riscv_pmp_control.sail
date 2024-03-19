@@ -100,7 +100,7 @@ val pmpCheckRWX: (Pmpcfg_ent, AccessType(ext_access_type)) -> bool
 function pmpCheckRWX(ent, acc) = {
   match acc {
     Read(_)      => ent.R() == 0b1,
-    Write(_)     => ent.W() == 0b1,
+    Write(_)     => ent.W() == 0b1 & ent.R() != 0b0,
     ReadWrite(_) => ent.R() == 0b1 & ent.W() == 0b1,
     Execute()    => ent.X() == 0b1
   }

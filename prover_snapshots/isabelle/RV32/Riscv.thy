@@ -2402,7 +2402,8 @@ definition SATPMode_of_num  :: \<open> int \<Rightarrow> SATPMode \<close>  wher
    if (((l__247 = (( 0 :: int)::ii)))) then Sbare
    else if (((l__247 = (( 1 :: int)::ii)))) then Sv32
    else if (((l__247 = (( 2 :: int)::ii)))) then Sv39
-   else Sv48))\<close> 
+   else if (((l__247 = (( 3 :: int)::ii)))) then Sv48
+   else Sv57))\<close> 
   for  arg1  :: " int "
 
 
@@ -2413,6 +2414,7 @@ fun num_of_SATPMode  :: \<open> SATPMode \<Rightarrow> int \<close>  where
 |\<open> num_of_SATPMode Sv32 = ( (( 1 :: int)::ii))\<close>
 |\<open> num_of_SATPMode Sv39 = ( (( 2 :: int)::ii))\<close>
 |\<open> num_of_SATPMode Sv48 = ( (( 3 :: int)::ii))\<close>
+|\<open> num_of_SATPMode Sv57 = ( (( 4 :: int)::ii))\<close>
 
 
 \<comment> \<open>\<open>val satp64Mode_of_bits : Architecture -> mword ty4 -> maybe SATPMode\<close>\<close>
@@ -2428,6 +2430,7 @@ definition satp64Mode_of_bits  :: \<open> Architecture \<Rightarrow>(4)Word.word
         | (RV64, b__0) =>
            if (((b__0 = ( 0x8 ::  4 Word.word)))) then Some Sv39
            else if (((b__0 = ( 0x9 ::  4 Word.word)))) then Some Sv48
+           else if (((b__0 = ( 0xA ::  4 Word.word)))) then Some Sv57
            else (case  (RV64, b__0) of   (_, _) => None )
         | (_, _) => None
         ))\<close> 
@@ -4584,6 +4587,12 @@ definition update_Misa_bits  :: \<open> Misa \<Rightarrow>(32)Word.word \<Righta
 
 \<comment> \<open>\<open>val _update_SV48_Vaddr_bits : SV48_Vaddr -> mword ty48 -> SV48_Vaddr\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_PTE_bits : SV57_PTE -> mword ty64 -> SV57_PTE\<close>\<close>
+
+\<comment> \<open>\<open>val _update_SV57_Paddr_bits : SV57_Paddr -> mword ty56 -> SV57_Paddr\<close>\<close>
+
+\<comment> \<open>\<open>val _update_SV57_Vaddr_bits : SV57_Vaddr -> mword ty57 -> SV57_Vaddr\<close>\<close>
+
 \<comment> \<open>\<open>val _update_Satp32_bits : Satp32 -> mword ty32 -> Satp32\<close>\<close>
 
 \<comment> \<open>\<open>val _update_Satp64_bits : Satp64 -> mword ty64 -> Satp64\<close>\<close>
@@ -4640,6 +4649,12 @@ definition update_Misa_bits  :: \<open> Misa \<Rightarrow>(32)Word.word \<Righta
 
 \<comment> \<open>\<open>val _get_SV48_Vaddr_bits : SV48_Vaddr -> mword ty48\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_PTE_bits : SV57_PTE -> mword ty64\<close>\<close>
+
+\<comment> \<open>\<open>val _get_SV57_Paddr_bits : SV57_Paddr -> mword ty56\<close>\<close>
+
+\<comment> \<open>\<open>val _get_SV57_Vaddr_bits : SV57_Vaddr -> mword ty57\<close>\<close>
+
 \<comment> \<open>\<open>val _get_Satp32_bits : Satp32 -> mword ty32\<close>\<close>
 
 \<comment> \<open>\<open>val _get_Satp64_bits : Satp64 -> mword ty64\<close>\<close>
@@ -4695,6 +4710,12 @@ definition update_Misa_bits  :: \<open> Misa \<Rightarrow>(32)Word.word \<Righta
 \<comment> \<open>\<open>val _set_SV48_Paddr_bits : register_ref regstate register_value SV48_Paddr -> mword ty56 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_Vaddr_bits : register_ref regstate register_value SV48_Vaddr -> mword ty48 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_PTE_bits : register_ref regstate register_value SV57_PTE -> mword ty64 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Paddr_bits : register_ref regstate register_value SV57_Paddr -> mword ty56 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Vaddr_bits : register_ref regstate register_value SV57_Vaddr -> mword ty57 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_Satp32_bits : register_ref regstate register_value Satp32 -> mword ty32 -> M unit\<close>\<close>
 
@@ -17302,6 +17323,10 @@ definition update_SV32_Vaddr_PgOfs  :: \<open> SV32_Vaddr \<Rightarrow>(12)Word.
 
 \<comment> \<open>\<open>val _update_SV48_Vaddr_PgOfs : SV48_Vaddr -> mword ty12 -> SV48_Vaddr\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_Paddr_PgOfs : SV57_Paddr -> mword ty12 -> SV57_Paddr\<close>\<close>
+
+\<comment> \<open>\<open>val _update_SV57_Vaddr_PgOfs : SV57_Vaddr -> mword ty12 -> SV57_Vaddr\<close>\<close>
+
 \<comment> \<open>\<open>val _get_SV32_Paddr_PgOfs : SV32_Paddr -> mword ty12\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV39_Paddr_PgOfs : SV39_Paddr -> mword ty12\<close>\<close>
@@ -17312,6 +17337,10 @@ definition update_SV32_Vaddr_PgOfs  :: \<open> SV32_Vaddr \<Rightarrow>(12)Word.
 
 \<comment> \<open>\<open>val _get_SV48_Vaddr_PgOfs : SV48_Vaddr -> mword ty12\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_Paddr_PgOfs : SV57_Paddr -> mword ty12\<close>\<close>
+
+\<comment> \<open>\<open>val _get_SV57_Vaddr_PgOfs : SV57_Vaddr -> mword ty12\<close>\<close>
+
 \<comment> \<open>\<open>val _set_SV32_Paddr_PgOfs : register_ref regstate register_value SV32_Paddr -> mword ty12 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV39_Paddr_PgOfs : register_ref regstate register_value SV39_Paddr -> mword ty12 -> M unit\<close>\<close>
@@ -17321,6 +17350,10 @@ definition update_SV32_Vaddr_PgOfs  :: \<open> SV32_Vaddr \<Rightarrow>(12)Word.
 \<comment> \<open>\<open>val _set_SV48_Paddr_PgOfs : register_ref regstate register_value SV48_Paddr -> mword ty12 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_Vaddr_PgOfs : register_ref regstate register_value SV48_Vaddr -> mword ty12 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Paddr_PgOfs : register_ref regstate register_value SV57_Paddr -> mword ty12 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Vaddr_PgOfs : register_ref regstate register_value SV57_Vaddr -> mword ty12 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV32_Vaddr_VPNi : SV32_Vaddr -> mword ty20\<close>\<close>
 
@@ -17357,13 +17390,19 @@ definition update_SV32_Vaddr_VPNi  :: \<open> SV32_Vaddr \<Rightarrow>(20)Word.w
 
 \<comment> \<open>\<open>val _update_SV48_Vaddr_VPNi : SV48_Vaddr -> mword ty27 -> SV48_Vaddr\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_Vaddr_VPNi : SV57_Vaddr -> mword ty27 -> SV57_Vaddr\<close>\<close>
+
 \<comment> \<open>\<open>val _get_SV39_Vaddr_VPNi : SV39_Vaddr -> mword ty27\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV48_Vaddr_VPNi : SV48_Vaddr -> mword ty27\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_Vaddr_VPNi : SV57_Vaddr -> mword ty27\<close>\<close>
+
 \<comment> \<open>\<open>val _set_SV39_Vaddr_VPNi : register_ref regstate register_value SV39_Vaddr -> mword ty27 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_Vaddr_VPNi : register_ref regstate register_value SV48_Vaddr -> mword ty27 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Vaddr_VPNi : register_ref regstate register_value SV57_Vaddr -> mword ty27 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val undefined_SV32_Paddr : unit -> M SV32_Paddr\<close>\<close>
 
@@ -17447,6 +17486,10 @@ definition update_SV32_Paddr_PPNi  :: \<open> SV32_Paddr \<Rightarrow>(22)Word.w
 
 \<comment> \<open>\<open>val _update_SV48_Paddr_PPNi : SV48_Paddr -> mword ty44 -> SV48_Paddr\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_PTE_PPNi : SV57_PTE -> mword ty44 -> SV57_PTE\<close>\<close>
+
+\<comment> \<open>\<open>val _update_SV57_Paddr_PPNi : SV57_Paddr -> mword ty44 -> SV57_Paddr\<close>\<close>
+
 \<comment> \<open>\<open>val _get_SV32_PTE_PPNi : SV32_PTE -> mword ty22\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV39_PTE_PPNi : SV39_PTE -> mword ty44\<close>\<close>
@@ -17457,6 +17500,10 @@ definition update_SV32_Paddr_PPNi  :: \<open> SV32_Paddr \<Rightarrow>(22)Word.w
 
 \<comment> \<open>\<open>val _get_SV48_Paddr_PPNi : SV48_Paddr -> mword ty44\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_PTE_PPNi : SV57_PTE -> mword ty44\<close>\<close>
+
+\<comment> \<open>\<open>val _get_SV57_Paddr_PPNi : SV57_Paddr -> mword ty44\<close>\<close>
+
 \<comment> \<open>\<open>val _set_SV32_PTE_PPNi : register_ref regstate register_value SV32_PTE -> mword ty22 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV39_PTE_PPNi : register_ref regstate register_value SV39_PTE -> mword ty44 -> M unit\<close>\<close>
@@ -17466,6 +17513,10 @@ definition update_SV32_Paddr_PPNi  :: \<open> SV32_Paddr \<Rightarrow>(22)Word.w
 \<comment> \<open>\<open>val _set_SV48_PTE_PPNi : register_ref regstate register_value SV48_PTE -> mword ty44 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_Paddr_PPNi : register_ref regstate register_value SV48_Paddr -> mword ty44 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_PTE_PPNi : register_ref regstate register_value SV57_PTE -> mword ty44 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_Paddr_PPNi : register_ref regstate register_value SV57_Paddr -> mword ty44 -> M unit\<close>\<close>
 
 definition get_SV32_Paddr_PgOfs  :: \<open> SV32_Paddr \<Rightarrow>(12)Word.word \<close>  where 
      \<open> get_SV32_Paddr_PgOfs v = ( (subrange_vec_dec(SV32_Paddr_bits   v) (( 11 :: int)::ii) (( 0 :: int)::ii)  ::  12 Word.word))\<close> 
@@ -17566,13 +17617,19 @@ definition update_SV32_PTE_BITS  :: \<open> SV32_PTE \<Rightarrow>(8)Word.word \
 
 \<comment> \<open>\<open>val _update_SV48_PTE_BITS : SV48_PTE -> mword ty8 -> SV48_PTE\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_PTE_BITS : SV57_PTE -> mword ty8 -> SV57_PTE\<close>\<close>
+
 \<comment> \<open>\<open>val _get_SV39_PTE_BITS : SV39_PTE -> mword ty8\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV48_PTE_BITS : SV48_PTE -> mword ty8\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_PTE_BITS : SV57_PTE -> mword ty8\<close>\<close>
+
 \<comment> \<open>\<open>val _set_SV39_PTE_BITS : register_ref regstate register_value SV39_PTE -> mword ty8 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_PTE_BITS : register_ref regstate register_value SV48_PTE -> mword ty8 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_PTE_BITS : register_ref regstate register_value SV57_PTE -> mword ty8 -> M unit\<close>\<close>
 
 definition get_SV32_PTE_PPNi  :: \<open> SV32_PTE \<Rightarrow>(22)Word.word \<close>  where 
      \<open> get_SV32_PTE_PPNi v = ( (subrange_vec_dec(SV32_PTE_bits   v) (( 31 :: int)::ii) (( 10 :: int)::ii)  ::  22 Word.word))\<close> 
@@ -17632,13 +17689,19 @@ definition update_SV32_PTE_RSW  :: \<open> SV32_PTE \<Rightarrow>(2)Word.word \<
 
 \<comment> \<open>\<open>val _update_SV48_PTE_RSW : SV48_PTE -> mword ty2 -> SV48_PTE\<close>\<close>
 
+\<comment> \<open>\<open>val _update_SV57_PTE_RSW : SV57_PTE -> mword ty2 -> SV57_PTE\<close>\<close>
+
 \<comment> \<open>\<open>val _get_SV39_PTE_RSW : SV39_PTE -> mword ty2\<close>\<close>
 
 \<comment> \<open>\<open>val _get_SV48_PTE_RSW : SV48_PTE -> mword ty2\<close>\<close>
 
+\<comment> \<open>\<open>val _get_SV57_PTE_RSW : SV57_PTE -> mword ty2\<close>\<close>
+
 \<comment> \<open>\<open>val _set_SV39_PTE_RSW : register_ref regstate register_value SV39_PTE -> mword ty2 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val _set_SV48_PTE_RSW : register_ref regstate register_value SV48_PTE -> mword ty2 -> M unit\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_PTE_RSW : register_ref regstate register_value SV57_PTE -> mword ty2 -> M unit\<close>\<close>
 
 \<comment> \<open>\<open>val curAsid64 : mword ty64 -> mword ty16\<close>\<close>
 
@@ -18291,6 +18354,13 @@ definition update_SV48_PTE_Ext  :: \<open> SV48_PTE \<Rightarrow>(10)Word.word \
   and  x  :: "(10)Word.word "
 
 
+\<comment> \<open>\<open>val _update_SV57_PTE_Ext : SV57_PTE -> mword ty10 -> SV57_PTE\<close>\<close>
+
+\<comment> \<open>\<open>val _get_SV57_PTE_Ext : SV57_PTE -> mword ty10\<close>\<close>
+
+\<comment> \<open>\<open>val _set_SV57_PTE_Ext : register_ref regstate register_value SV57_PTE -> mword ty10 -> M unit\<close>\<close>
+
+
 definition get_SV48_PTE_PPNi  :: \<open> SV48_PTE \<Rightarrow>(44)Word.word \<close>  where 
      \<open> get_SV48_PTE_PPNi v = ( (subrange_vec_dec(SV48_PTE_bits   v) (( 53 :: int)::ii) (( 10 :: int)::ii)  ::  44 Word.word))\<close> 
   for  v  :: " SV48_PTE "
@@ -18338,6 +18408,338 @@ definition update_SV48_PTE_RSW  :: \<open> SV48_PTE \<Rightarrow>(2)Word.word \<
   for  v  :: " SV48_PTE " 
   and  x  :: "(2)Word.word "
 
+definition SV57_LEVEL_BITS  :: \<open> int \<close>  where 
+     \<open> SV57_LEVEL_BITS = ( (( 9 :: int)::ii))\<close>
+
+
+definition SV57_LEVELS  :: \<open> int \<close>  where 
+     \<open> SV57_LEVELS = ( (( 5 :: int)::ii))\<close>
+
+
+definition PTE57_LOG_SIZE  :: \<open> int \<close>  where 
+     \<open> PTE57_LOG_SIZE = ( (( 3 :: int)::ii))\<close>
+
+
+definition PTE57_SIZE  :: \<open> int \<close>  where 
+     \<open> PTE57_SIZE = ( (( 8 :: int)::ii))\<close>
+
+
+\<comment> \<open>\<open>val undefined_SV57_Vaddr : unit -> M SV57_Vaddr\<close>\<close>
+
+definition undefined_SV57_Vaddr  :: \<open> unit \<Rightarrow>((register_value),(SV57_Vaddr),(exception))monad \<close>  where 
+     \<open> undefined_SV57_Vaddr _ = (
+   ((return (failwith (''undefined value of unsupported type''))) :: ( 57 Word.word) M) \<bind> ((\<lambda> (w__0 ::
+      57 Word.word) . 
+   return ((| SV57_Vaddr_bits = w__0 |)))))\<close>
+
+
+\<comment> \<open>\<open>val Mk_SV57_Vaddr : mword ty57 -> SV57_Vaddr\<close>\<close>
+
+definition Mk_SV57_Vaddr  :: \<open>(57)Word.word \<Rightarrow> SV57_Vaddr \<close>  where 
+     \<open> Mk_SV57_Vaddr v = ( (| SV57_Vaddr_bits = v |) )\<close> 
+  for  v  :: "(57)Word.word "
+
+
+definition get_SV57_Vaddr_bits  :: \<open> SV57_Vaddr \<Rightarrow>(57)Word.word \<close>  where 
+     \<open> get_SV57_Vaddr_bits v = ( (subrange_vec_dec(SV57_Vaddr_bits   v) (( 56 :: int)::ii) (( 0 :: int)::ii)  ::  57 Word.word))\<close> 
+  for  v  :: " SV57_Vaddr "
+
+
+definition set_SV57_Vaddr_bits  :: \<open>((regstate),(register_value),(SV57_Vaddr))register_ref \<Rightarrow>(57)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Vaddr_bits r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Vaddr_bits :=
+         ((update_subrange_vec_dec(SV57_Vaddr_bits   r) (( 56 :: int)::ii) (( 0 :: int)::ii) v  ::  57 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Vaddr))register_ref " 
+  and  v  :: "(57)Word.word "
+
+
+definition update_SV57_Vaddr_bits  :: \<open> SV57_Vaddr \<Rightarrow>(57)Word.word \<Rightarrow> SV57_Vaddr \<close>  where 
+     \<open> update_SV57_Vaddr_bits v x = (
+   ( v (|
+     SV57_Vaddr_bits := ((update_subrange_vec_dec(SV57_Vaddr_bits   v) (( 56 :: int)::ii) (( 0 :: int)::ii) x  ::  57 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Vaddr " 
+  and  x  :: "(57)Word.word "
+
+
+definition get_SV57_Vaddr_PgOfs  :: \<open> SV57_Vaddr \<Rightarrow>(12)Word.word \<close>  where 
+     \<open> get_SV57_Vaddr_PgOfs v = ( (subrange_vec_dec(SV57_Vaddr_bits   v) (( 11 :: int)::ii) (( 0 :: int)::ii)  ::  12 Word.word))\<close> 
+  for  v  :: " SV57_Vaddr "
+
+
+definition set_SV57_Vaddr_PgOfs  :: \<open>((regstate),(register_value),(SV57_Vaddr))register_ref \<Rightarrow>(12)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Vaddr_PgOfs r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Vaddr_bits :=
+         ((update_subrange_vec_dec(SV57_Vaddr_bits   r) (( 11 :: int)::ii) (( 0 :: int)::ii) v  ::  57 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Vaddr))register_ref " 
+  and  v  :: "(12)Word.word "
+
+
+definition update_SV57_Vaddr_PgOfs  :: \<open> SV57_Vaddr \<Rightarrow>(12)Word.word \<Rightarrow> SV57_Vaddr \<close>  where 
+     \<open> update_SV57_Vaddr_PgOfs v x = (
+   ( v (|
+     SV57_Vaddr_bits := ((update_subrange_vec_dec(SV57_Vaddr_bits   v) (( 11 :: int)::ii) (( 0 :: int)::ii) x  ::  57 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Vaddr " 
+  and  x  :: "(12)Word.word "
+
+
+definition get_SV57_Vaddr_VPNi  :: \<open> SV57_Vaddr \<Rightarrow>(27)Word.word \<close>  where 
+     \<open> get_SV57_Vaddr_VPNi v = ( (subrange_vec_dec(SV57_Vaddr_bits   v) (( 38 :: int)::ii) (( 12 :: int)::ii)  ::  27 Word.word))\<close> 
+  for  v  :: " SV57_Vaddr "
+
+
+definition set_SV57_Vaddr_VPNi  :: \<open>((regstate),(register_value),(SV57_Vaddr))register_ref \<Rightarrow>(27)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Vaddr_VPNi r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Vaddr_bits :=
+         ((update_subrange_vec_dec(SV57_Vaddr_bits   r) (( 38 :: int)::ii) (( 12 :: int)::ii) v  ::  57 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Vaddr))register_ref " 
+  and  v  :: "(27)Word.word "
+
+
+definition update_SV57_Vaddr_VPNi  :: \<open> SV57_Vaddr \<Rightarrow>(27)Word.word \<Rightarrow> SV57_Vaddr \<close>  where 
+     \<open> update_SV57_Vaddr_VPNi v x = (
+   ( v (|
+     SV57_Vaddr_bits := ((update_subrange_vec_dec(SV57_Vaddr_bits   v) (( 38 :: int)::ii) (( 12 :: int)::ii) x  ::  57 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Vaddr " 
+  and  x  :: "(27)Word.word "
+
+
+\<comment> \<open>\<open>val undefined_SV57_Paddr : unit -> M SV57_Paddr\<close>\<close>
+
+definition undefined_SV57_Paddr  :: \<open> unit \<Rightarrow>((register_value),(SV57_Paddr),(exception))monad \<close>  where 
+     \<open> undefined_SV57_Paddr _ = (
+   ((return (failwith (''undefined value of unsupported type''))) :: ( 56 Word.word) M) \<bind> ((\<lambda> (w__0 ::
+      56 Word.word) . 
+   return ((| SV57_Paddr_bits = w__0 |)))))\<close>
+
+
+\<comment> \<open>\<open>val Mk_SV57_Paddr : mword ty56 -> SV57_Paddr\<close>\<close>
+
+definition Mk_SV57_Paddr  :: \<open>(56)Word.word \<Rightarrow> SV57_Paddr \<close>  where 
+     \<open> Mk_SV57_Paddr v = ( (| SV57_Paddr_bits = v |) )\<close> 
+  for  v  :: "(56)Word.word "
+
+
+definition get_SV57_Paddr_bits  :: \<open> SV57_Paddr \<Rightarrow>(56)Word.word \<close>  where 
+     \<open> get_SV57_Paddr_bits v = ( (subrange_vec_dec(SV57_Paddr_bits   v) (( 55 :: int)::ii) (( 0 :: int)::ii)  ::  56 Word.word))\<close> 
+  for  v  :: " SV57_Paddr "
+
+
+definition set_SV57_Paddr_bits  :: \<open>((regstate),(register_value),(SV57_Paddr))register_ref \<Rightarrow>(56)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Paddr_bits r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Paddr_bits :=
+         ((update_subrange_vec_dec(SV57_Paddr_bits   r) (( 55 :: int)::ii) (( 0 :: int)::ii) v  ::  56 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Paddr))register_ref " 
+  and  v  :: "(56)Word.word "
+
+
+definition update_SV57_Paddr_bits  :: \<open> SV57_Paddr \<Rightarrow>(56)Word.word \<Rightarrow> SV57_Paddr \<close>  where 
+     \<open> update_SV57_Paddr_bits v x = (
+   ( v (|
+     SV57_Paddr_bits := ((update_subrange_vec_dec(SV57_Paddr_bits   v) (( 55 :: int)::ii) (( 0 :: int)::ii) x  ::  56 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Paddr " 
+  and  x  :: "(56)Word.word "
+
+
+definition get_SV57_Paddr_PPNi  :: \<open> SV57_Paddr \<Rightarrow>(44)Word.word \<close>  where 
+     \<open> get_SV57_Paddr_PPNi v = ( (subrange_vec_dec(SV57_Paddr_bits   v) (( 55 :: int)::ii) (( 12 :: int)::ii)  ::  44 Word.word))\<close> 
+  for  v  :: " SV57_Paddr "
+
+
+definition set_SV57_Paddr_PPNi  :: \<open>((regstate),(register_value),(SV57_Paddr))register_ref \<Rightarrow>(44)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Paddr_PPNi r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Paddr_bits :=
+         ((update_subrange_vec_dec(SV57_Paddr_bits   r) (( 55 :: int)::ii) (( 12 :: int)::ii) v  ::  56 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Paddr))register_ref " 
+  and  v  :: "(44)Word.word "
+
+
+definition update_SV57_Paddr_PPNi  :: \<open> SV57_Paddr \<Rightarrow>(44)Word.word \<Rightarrow> SV57_Paddr \<close>  where 
+     \<open> update_SV57_Paddr_PPNi v x = (
+   ( v (|
+     SV57_Paddr_bits := ((update_subrange_vec_dec(SV57_Paddr_bits   v) (( 55 :: int)::ii) (( 12 :: int)::ii) x  ::  56 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Paddr " 
+  and  x  :: "(44)Word.word "
+
+
+definition get_SV57_Paddr_PgOfs  :: \<open> SV57_Paddr \<Rightarrow>(12)Word.word \<close>  where 
+     \<open> get_SV57_Paddr_PgOfs v = ( (subrange_vec_dec(SV57_Paddr_bits   v) (( 11 :: int)::ii) (( 0 :: int)::ii)  ::  12 Word.word))\<close> 
+  for  v  :: " SV57_Paddr "
+
+
+definition set_SV57_Paddr_PgOfs  :: \<open>((regstate),(register_value),(SV57_Paddr))register_ref \<Rightarrow>(12)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_Paddr_PgOfs r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_Paddr_bits :=
+         ((update_subrange_vec_dec(SV57_Paddr_bits   r) (( 11 :: int)::ii) (( 0 :: int)::ii) v  ::  56 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_Paddr))register_ref " 
+  and  v  :: "(12)Word.word "
+
+
+definition update_SV57_Paddr_PgOfs  :: \<open> SV57_Paddr \<Rightarrow>(12)Word.word \<Rightarrow> SV57_Paddr \<close>  where 
+     \<open> update_SV57_Paddr_PgOfs v x = (
+   ( v (|
+     SV57_Paddr_bits := ((update_subrange_vec_dec(SV57_Paddr_bits   v) (( 11 :: int)::ii) (( 0 :: int)::ii) x  ::  56 Word.word)) |)))\<close> 
+  for  v  :: " SV57_Paddr " 
+  and  x  :: "(12)Word.word "
+
+
+\<comment> \<open>\<open>val undefined_SV57_PTE : unit -> M SV57_PTE\<close>\<close>
+
+definition undefined_SV57_PTE  :: \<open> unit \<Rightarrow>((register_value),(SV57_PTE),(exception))monad \<close>  where 
+     \<open> undefined_SV57_PTE _ = (
+   ((return (failwith (''undefined value of unsupported type''))) :: ( 64 Word.word) M) \<bind> ((\<lambda> (w__0 ::
+      64 Word.word) . 
+   return ((| SV57_PTE_bits = w__0 |)))))\<close>
+
+
+\<comment> \<open>\<open>val Mk_SV57_PTE : mword ty64 -> SV57_PTE\<close>\<close>
+
+definition Mk_SV57_PTE  :: \<open>(64)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> Mk_SV57_PTE v = ( (| SV57_PTE_bits = v |) )\<close> 
+  for  v  :: "(64)Word.word "
+
+
+definition get_SV57_PTE_bits  :: \<open> SV57_PTE \<Rightarrow>(64)Word.word \<close>  where 
+     \<open> get_SV57_PTE_bits v = ( (subrange_vec_dec(SV57_PTE_bits   v) (( 63 :: int)::ii) (( 0 :: int)::ii)  ::  64 Word.word))\<close> 
+  for  v  :: " SV57_PTE "
+
+
+definition set_SV57_PTE_bits  :: \<open>((regstate),(register_value),(SV57_PTE))register_ref \<Rightarrow>(64)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_PTE_bits r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   r) (( 63 :: int)::ii) (( 0 :: int)::ii) v  ::  64 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_PTE))register_ref " 
+  and  v  :: "(64)Word.word "
+
+
+definition update_SV57_PTE_bits  :: \<open> SV57_PTE \<Rightarrow>(64)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> update_SV57_PTE_bits v x = (
+   ( v (|
+     SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   v) (( 63 :: int)::ii) (( 0 :: int)::ii) x  ::  64 Word.word)) |)))\<close> 
+  for  v  :: " SV57_PTE " 
+  and  x  :: "(64)Word.word "
+
+
+definition get_SV57_PTE_BITS  :: \<open> SV57_PTE \<Rightarrow>(8)Word.word \<close>  where 
+     \<open> get_SV57_PTE_BITS v = ( (subrange_vec_dec(SV57_PTE_bits   v) (( 7 :: int)::ii) (( 0 :: int)::ii)  ::  8 Word.word))\<close> 
+  for  v  :: " SV57_PTE "
+
+
+definition set_SV57_PTE_BITS  :: \<open>((regstate),(register_value),(SV57_PTE))register_ref \<Rightarrow>(8)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_PTE_BITS r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   r) (( 7 :: int)::ii) (( 0 :: int)::ii) v  ::  64 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_PTE))register_ref " 
+  and  v  :: "(8)Word.word "
+
+
+definition update_SV57_PTE_BITS  :: \<open> SV57_PTE \<Rightarrow>(8)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> update_SV57_PTE_BITS v x = (
+   ( v (|
+     SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   v) (( 7 :: int)::ii) (( 0 :: int)::ii) x  ::  64 Word.word)) |)))\<close> 
+  for  v  :: " SV57_PTE " 
+  and  x  :: "(8)Word.word "
+
+
+definition get_SV57_PTE_Ext  :: \<open> SV57_PTE \<Rightarrow>(10)Word.word \<close>  where 
+     \<open> get_SV57_PTE_Ext v = ( (subrange_vec_dec(SV57_PTE_bits   v) (( 63 :: int)::ii) (( 54 :: int)::ii)  ::  10 Word.word))\<close> 
+  for  v  :: " SV57_PTE "
+
+
+definition set_SV57_PTE_Ext  :: \<open>((regstate),(register_value),(SV57_PTE))register_ref \<Rightarrow>(10)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_PTE_Ext r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   r) (( 63 :: int)::ii) (( 54 :: int)::ii) v  ::  64 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_PTE))register_ref " 
+  and  v  :: "(10)Word.word "
+
+
+definition update_SV57_PTE_Ext  :: \<open> SV57_PTE \<Rightarrow>(10)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> update_SV57_PTE_Ext v x = (
+   ( v (|
+     SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   v) (( 63 :: int)::ii) (( 54 :: int)::ii) x  ::  64 Word.word)) |)))\<close> 
+  for  v  :: " SV57_PTE " 
+  and  x  :: "(10)Word.word "
+
+
+definition get_SV57_PTE_PPNi  :: \<open> SV57_PTE \<Rightarrow>(44)Word.word \<close>  where 
+     \<open> get_SV57_PTE_PPNi v = ( (subrange_vec_dec(SV57_PTE_bits   v) (( 53 :: int)::ii) (( 10 :: int)::ii)  ::  44 Word.word))\<close> 
+  for  v  :: " SV57_PTE "
+
+
+definition set_SV57_PTE_PPNi  :: \<open>((regstate),(register_value),(SV57_PTE))register_ref \<Rightarrow>(44)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_PTE_PPNi r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   r) (( 53 :: int)::ii) (( 10 :: int)::ii) v  ::  64 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_PTE))register_ref " 
+  and  v  :: "(44)Word.word "
+
+
+definition update_SV57_PTE_PPNi  :: \<open> SV57_PTE \<Rightarrow>(44)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> update_SV57_PTE_PPNi v x = (
+   ( v (|
+     SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   v) (( 53 :: int)::ii) (( 10 :: int)::ii) x  ::  64 Word.word)) |)))\<close> 
+  for  v  :: " SV57_PTE " 
+  and  x  :: "(44)Word.word "
+
+
+definition get_SV57_PTE_RSW  :: \<open> SV57_PTE \<Rightarrow>(2)Word.word \<close>  where 
+     \<open> get_SV57_PTE_RSW v = ( (subrange_vec_dec(SV57_PTE_bits   v) (( 9 :: int)::ii) (( 8 :: int)::ii)  ::  2 Word.word))\<close> 
+  for  v  :: " SV57_PTE "
+
+
+definition set_SV57_PTE_RSW  :: \<open>((regstate),(register_value),(SV57_PTE))register_ref \<Rightarrow>(2)Word.word \<Rightarrow>((register_value),(unit),(exception))monad \<close>  where 
+     \<open> set_SV57_PTE_RSW r_ref v = (
+   read_reg r_ref \<bind> ((\<lambda> r . 
+   (let r =
+     (( r (|
+       SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   r) (( 9 :: int)::ii) (( 8 :: int)::ii) v  ::  64 Word.word)) |))) in
+   write_reg r_ref r))))\<close> 
+  for  r_ref  :: "((regstate),(register_value),(SV57_PTE))register_ref " 
+  and  v  :: "(2)Word.word "
+
+
+definition update_SV57_PTE_RSW  :: \<open> SV57_PTE \<Rightarrow>(2)Word.word \<Rightarrow> SV57_PTE \<close>  where 
+     \<open> update_SV57_PTE_RSW v x = (
+   ( v (|
+     SV57_PTE_bits := ((update_subrange_vec_dec(SV57_PTE_bits   v) (( 9 :: int)::ii) (( 8 :: int)::ii) x  ::  64 Word.word)) |)))\<close> 
+  for  v  :: " SV57_PTE " 
+  and  x  :: "(2)Word.word "
 
 \<comment> \<open>\<open>val make_TLB_Entry : forall 'asidlen 'palen 'ptelen 'valen. Size 'asidlen, Size 'palen, Size 'ptelen, Size 'valen => mword 'asidlen -> bool -> mword 'valen -> mword 'palen -> mword 'ptelen -> ii -> mword 'palen -> ii -> M (TLB_Entry 'asidlen 'valen 'palen 'ptelen)\<close>\<close>
 

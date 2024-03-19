@@ -209,6 +209,33 @@ bitfield SV48_PTE : pte48 = {
   BITS  : 7  .. 0
 }
 
+/* Sv57 parameters and bitfield layouts */
+
+let SV57_LEVEL_BITS = 9
+let SV57_LEVELS     = 5
+let PTE57_LOG_SIZE  = 3
+let PTE57_SIZE      = 8
+
+type vaddr57 = bits(57)
+type pte57   = bits(64)
+
+bitfield SV57_Vaddr : vaddr57 = {
+  VPNi  : 56 .. 12,
+  PgOfs : 11 .. 0
+}
+
+bitfield SV57_Paddr : paddr64 = {
+  PPNi  : 55 .. 12,
+  PgOfs : 11 .. 0
+}
+
+bitfield SV57_PTE : pte57 = {
+  Ext   : 63 .. 54,
+  PPNi  : 53 .. 10,
+  RSW   : 9  .. 8,
+  BITS  : 7  .. 0
+}
+
 /* The types below are parameterized by 'paddr and 'pte to support
  * various architectural widths (e.g. RV32, RV64).  ext_ptw supports
  * extensions to the default address translation and page-table-walk.

@@ -412,7 +412,7 @@ datatype ExtStatus =   Off | Initial | Clean | Dirty
 
 type_synonym satp_mode  =" 4 bits "
 
-datatype SATPMode =   Sbare | Sv32 | Sv39 | Sv48
+datatype SATPMode =   Sbare | Sv32 | Sv39 | Sv48 | Sv57
 
 
 
@@ -527,6 +527,19 @@ record SV48_Paddr  =
 record SV48_Vaddr  = 
  SV48_Vaddr_bits ::"  48 Word.word "  
 
+
+record SV57_PTE  = 
+ SV57_PTE_bits ::"  64 Word.word "  
+
+
+
+record SV57_Paddr  = 
+ SV57_Paddr_bits ::"  56 Word.word "  
+
+
+
+record SV57_Vaddr  = 
+ SV57_Vaddr_bits ::"  57 Word.word "  
 
 
 record Satp32  = 
@@ -673,7 +686,11 @@ type_synonym vaddr39  =" 39 bits "
 
 type_synonym vaddr48  =" 48 bits "
 
+type_synonym vaddr57  =" 57 bits "
+
 type_synonym pte48  =" 64 bits "
+
+type_synonym pte57  =" 64 bits "
 
 datatype( 'paddr, 'pte) PTW_Result =
     PTW_Success " (('paddr * 'pte * 'paddr * ii * bool * ext_ptw))"
@@ -712,6 +729,8 @@ type_synonym TLB39_Entry  =" (16, 39, 56, 64) TLB_Entry "
 
 type_synonym TLB48_Entry  =" (16, 48, 56, 64) TLB_Entry "
 
+type_synonym TLB57_Entry  =" (16, 57, 56, 64) TLB_Entry "
+
 datatype FetchResult  =
     F_Ext_Error " (ext_fetch_addr_error)"
   | F_Base " (word0)"
@@ -740,6 +759,7 @@ datatype register_value  =
   | Regval_Sinterrupts " (Sinterrupts)"
   | Regval_TLB_Entry_16_39_56_64 " ( (16, 39, 56, 64)TLB_Entry)"
   | Regval_TLB_Entry_16_48_56_64 " ( (16, 48, 56, 64)TLB_Entry)"
+  | Regval_TLB_Entry_16_57_56_64 " ( (16, 57, 56, 64)TLB_Entry)"
   | Regval_bit " (bitU)"
   | Regval_bitvector_32_dec " ( 32 Word.word)"
   | Regval_bitvector_4_dec " ( 4 Word.word)"
@@ -751,6 +771,8 @@ datatype register_value  =
 record regstate  =
   
  satp ::"  64 Word.word " 
+
+     tlb57 ::"  ( (16, 57, 56, 64)TLB_Entry)option " 
 
      tlb48 ::"  ( (16, 48, 56, 64)TLB_Entry)option " 
 
@@ -1290,6 +1312,21 @@ definition regval_of_TLB_Entry_16_48_56_64  :: \<open>((16),(48),(56),(64))TLB_E
   for  v  :: "((16),(48),(56),(64))TLB_Entry "
 
 
+\<comment> \<open>\<open>val TLB_Entry_16_57_56_64_of_regval : register_value -> maybe (TLB_Entry ty16 ty57 ty56 ty64)\<close>\<close>
+
+fun TLB_Entry_16_57_56_64_of_regval  :: \<open> register_value \<Rightarrow>(((16),(57),(56),(64))TLB_Entry)option \<close>  where 
+     \<open> TLB_Entry_16_57_56_64_of_regval (Regval_TLB_Entry_16_57_56_64 (v)) = ( Some v )\<close> 
+  for  v  :: "((16),(57),(56),(64))TLB_Entry "
+|\<open> TLB_Entry_16_57_56_64_of_regval _ = ( None )\<close>
+
+
+\<comment> \<open>\<open>val regval_of_TLB_Entry_16_57_56_64 : TLB_Entry ty16 ty57 ty56 ty64 -> register_value\<close>\<close>
+
+definition regval_of_TLB_Entry_16_57_56_64  :: \<open>((16),(57),(56),(64))TLB_Entry \<Rightarrow> register_value \<close>  where 
+     \<open> regval_of_TLB_Entry_16_57_56_64 v = ( Regval_TLB_Entry_16_57_56_64 v )\<close> 
+  for  v  :: "((16),(57),(56),(64))TLB_Entry "
+
+
 \<comment> \<open>\<open>val bit_of_regval : register_value -> maybe bitU\<close>\<close>
 
 fun bit_of_regval  :: \<open> register_value \<Rightarrow>(bitU)option \<close>  where 
@@ -1427,6 +1464,13 @@ definition satp_ref  :: \<open>((regstate),(register_value),((64)Word.word))regi
   of_regval = ((\<lambda> v .  bitvector_64_dec_of_regval v)),
   regval_of = ((\<lambda> v .  regval_of_bitvector_64_dec v)) |) )\<close>
 
+definition tlb57_ref  :: \<open>((regstate),(register_value),((((16),(57),(56),(64))TLB_Entry)option))register_ref \<close>  where 
+     \<open> tlb57_ref = ( (|
+  name = (''tlb57''),
+  read_from = ((\<lambda> s . (tlb57   s))),
+  write_to = ((\<lambda> v s .  (( s (| tlb57 := v |))))),
+  of_regval = ((\<lambda> v .  option_of_regval ((\<lambda> v .  TLB_Entry_16_57_56_64_of_regval v)) v)),
+  regval_of = ((\<lambda> v .  regval_of_option ((\<lambda> v .  regval_of_TLB_Entry_16_57_56_64 v)) v)) |) )\<close>
 
 definition tlb48_ref  :: \<open>((regstate),(register_value),((((16),(48),(56),(64))TLB_Entry)option))register_ref \<close>  where 
      \<open> tlb48_ref = ( (|
@@ -2755,6 +2799,7 @@ definition PC_ref  :: \<open>((regstate),(register_value),((64)Word.word))regist
 definition get_regval  :: \<open> string \<Rightarrow> regstate \<Rightarrow>(register_value)option \<close>  where 
      \<open> get_regval reg_name s = (
   if reg_name = (''satp'') then Some ((regval_of   satp_ref) ((read_from   satp_ref) s)) else
+  if reg_name = (''tlb57'') then Some ((regval_of   tlb57_ref) ((read_from   tlb57_ref) s)) else
   if reg_name = (''tlb48'') then Some ((regval_of   tlb48_ref) ((read_from   tlb48_ref) s)) else
   if reg_name = (''tlb39'') then Some ((regval_of   tlb39_ref) ((read_from   tlb39_ref) s)) else
   if reg_name = (''htif_payload_writes'') then Some ((regval_of   htif_payload_writes_ref) ((read_from   htif_payload_writes_ref) s)) else
@@ -2911,6 +2956,7 @@ definition get_regval  :: \<open> string \<Rightarrow> regstate \<Rightarrow>(re
 definition set_regval  :: \<open> string \<Rightarrow> register_value \<Rightarrow> regstate \<Rightarrow>(regstate)option \<close>  where 
      \<open> set_regval reg_name v s = (
   if reg_name = (''satp'') then map_option ((\<lambda> v . (write_to   satp_ref) v s)) ((of_regval   satp_ref) v) else
+  if reg_name = (''tlb57'') then map_option ((\<lambda> v . (write_to   tlb57_ref) v s)) ((of_regval   tlb57_ref) v) else
   if reg_name = (''tlb48'') then map_option ((\<lambda> v . (write_to   tlb48_ref) v s)) ((of_regval   tlb48_ref) v) else
   if reg_name = (''tlb39'') then map_option ((\<lambda> v . (write_to   tlb39_ref) v s)) ((of_regval   tlb39_ref) v) else
   if reg_name = (''htif_payload_writes'') then map_option ((\<lambda> v . (write_to   htif_payload_writes_ref) v s)) ((of_regval   htif_payload_writes_ref) v) else

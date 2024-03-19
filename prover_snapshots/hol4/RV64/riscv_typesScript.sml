@@ -477,7 +477,7 @@ val _ = Hol_datatype `
 val _ = type_abbrev( "satp_mode"  , ``: 4 bits``);
 
 val _ = Hol_datatype `
- SATPMode =   Sbare | Sv32 | Sv39 | Sv48`;
+ SATPMode =   Sbare | Sv32 | Sv39 | Sv48 | Sv57`;
 
 
 
@@ -592,6 +592,21 @@ val _ = Hol_datatype `
 
 val _ = Hol_datatype `
  SV48_Vaddr  = <| SV48_Vaddr_SV48_Vaddr_chunk_0 :  48 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_PTE  = <| SV57_PTE_SV57_PTE_chunk_0 :  64 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_Paddr  = <| SV57_Paddr_SV57_Paddr_chunk_0 :  56 words$word  |>`;
+
+
+
+val _ = Hol_datatype `
+ SV57_Vaddr  = <| SV57_Vaddr_SV57_Vaddr_chunk_0 :  57 words$word  |>`;
 
 
 
@@ -759,7 +774,11 @@ val _ = type_abbrev( "vaddr39"  , ``: 39 bits``);
 
 val _ = type_abbrev( "vaddr48"  , ``: 48 bits``);
 
+val _ = type_abbrev( "vaddr57"  , ``: 57 bits``);
+
 val _ = type_abbrev( "pte48"  , ``: 64 bits``);
+
+val _ = type_abbrev( "pte57"  , ``: 64 bits``);
 
 val _ = Hol_datatype `
  PTW_Result =
@@ -794,6 +813,8 @@ val _ = type_abbrev( "TLB39_Entry"  , ``: (16, 39, 56, 64) TLB_Entry``);
 
 val _ = type_abbrev( "TLB48_Entry"  , ``: (16, 48, 56, 64) TLB_Entry``);
 
+val _ = type_abbrev( "TLB57_Entry"  , ``: (16, 57, 56, 64) TLB_Entry``);
+
 val _ = Hol_datatype `
  FetchResult  =
     F_Ext_Error of (ext_fetch_addr_error)
@@ -825,6 +846,7 @@ val _ = Hol_datatype `
   | Regval_Sinterrupts of (Sinterrupts)
   | Regval_TLB_Entry_16_39_56_64 of ( (16, 39, 56, 64)TLB_Entry)
   | Regval_TLB_Entry_16_48_56_64 of ( (16, 48, 56, 64)TLB_Entry)
+  | Regval_TLB_Entry_16_57_56_64 of ( (16, 57, 56, 64)TLB_Entry)
   | Regval_bit of (bitU)
   | Regval_bitvector_32_dec of ( 32 words$word)
   | Regval_bitvector_4_dec of ( 4 words$word)
@@ -856,7 +878,8 @@ val _ = Hol_datatype `
      bitvector_64_dec_reg : string ->  64 words$word;
      bool_reg : string -> bool;
      option_TLB_Entry_16_39_56_64_reg : string ->  ( (16, 39, 56, 64)TLB_Entry)option;
-     option_TLB_Entry_16_48_56_64_reg : string ->  ( (16, 48, 56, 64)TLB_Entry)option  |>`;
+     option_TLB_Entry_16_48_56_64_reg : string ->  ( (16, 48, 56, 64)TLB_Entry)option;
+     option_TLB_Entry_16_57_56_64_reg : string ->  ( (16, 57, 56, 64)TLB_Entry)option  |>`;
 
 
 
@@ -1066,6 +1089,18 @@ val _ = Define `
 val _ = Define `
  ((regval_of_TLB_Entry_16_48_56_64:((16),(48),(56),(64))TLB_Entry -> register_value) v=  (Regval_TLB_Entry_16_48_56_64 v))`;
 
+(*val TLB_Entry_16_57_56_64_of_regval : register_value -> maybe (TLB_Entry ty16 ty57 ty56 ty64)*)
+
+val _ = Define `
+ ((TLB_Entry_16_57_56_64_of_regval:register_value ->(((16),(57),(56),(64))TLB_Entry)option) merge_var=
+    ((case merge_var of   Regval_TLB_Entry_16_57_56_64 (v) => SOME v | _ => NONE )))`;
+
+
+(*val regval_of_TLB_Entry_16_57_56_64 : TLB_Entry ty16 ty57 ty56 ty64 -> register_value*)
+
+val _ = Define `
+ ((regval_of_TLB_Entry_16_57_56_64:((16),(57),(56),(64))TLB_Entry -> register_value) v=  (Regval_TLB_Entry_16_57_56_64 v))`;
+
 
 (*val bit_of_regval : register_value -> maybe bitU*)
 
@@ -1184,6 +1219,14 @@ val _ = Define `
   of_regval := (\ v .  bitvector_64_dec_of_regval v);
   regval_of := (\ v .  regval_of_bitvector_64_dec v) |>))`;
 
+val _ = Define `
+ ((tlb57_ref:((regstate),(register_value),((((16),(57),(56),(64))TLB_Entry)option))register_ref)=  (<|
+  name := "tlb57";
+  read_from := (\ s .  s.option_TLB_Entry_16_57_56_64_reg "tlb57");
+  write_to := (\ v s .  (( s with<| option_TLB_Entry_16_57_56_64_reg :=
+  (\ reg .  if reg = "tlb57" then v else s.option_TLB_Entry_16_57_56_64_reg reg) |>)));
+  of_regval := (\ v .  option_of_regval (\ v .  TLB_Entry_16_57_56_64_of_regval v) v);
+  regval_of := (\ v .  regval_of_option (\ v .  regval_of_TLB_Entry_16_57_56_64 v) v) |>))`;
 
 val _ = Define `
  ((tlb48_ref:((regstate),(register_value),((((16),(48),(56),(64))TLB_Entry)option))register_ref)=  (<|
@@ -2659,6 +2702,7 @@ val _ = Define `
 val _ = Define `
  ((get_regval:string -> regstate ->(register_value)option) reg_name s=
    (if reg_name = "satp" then SOME (satp_ref.regval_of (satp_ref.read_from s)) else
+  if reg_name = "tlb57" then SOME (tlb57_ref.regval_of (tlb57_ref.read_from s)) else
   if reg_name = "tlb48" then SOME (tlb48_ref.regval_of (tlb48_ref.read_from s)) else
   if reg_name = "tlb39" then SOME (tlb39_ref.regval_of (tlb39_ref.read_from s)) else
   if reg_name = "htif_payload_writes" then SOME (htif_payload_writes_ref.regval_of (htif_payload_writes_ref.read_from s)) else
@@ -2813,6 +2857,7 @@ val _ = Define `
 val _ = Define `
  ((set_regval:string -> register_value -> regstate ->(regstate)option) reg_name v s=
    (if reg_name = "satp" then OPTION_MAP (\ v .  satp_ref.write_to v s) (satp_ref.of_regval v) else
+  if reg_name = "tlb57" then OPTION_MAP (\ v .  tlb57_ref.write_to v s) (tlb57_ref.of_regval v) else
   if reg_name = "tlb48" then OPTION_MAP (\ v .  tlb48_ref.write_to v s) (tlb48_ref.of_regval v) else
   if reg_name = "tlb39" then OPTION_MAP (\ v .  tlb39_ref.write_to v s) (tlb39_ref.of_regval v) else
   if reg_name = "htif_payload_writes" then OPTION_MAP (\ v .  htif_payload_writes_ref.write_to v s) (htif_payload_writes_ref.of_regval v) else

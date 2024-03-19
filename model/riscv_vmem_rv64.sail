@@ -91,6 +91,12 @@ function isValidSv48Addr(vAddr : xlenbits) -> bool = {
                       else zeros())
 }
 
+function isValidSv57Addr(vAddr : xlenbits) -> bool = {
+  vAddr[63 .. 57] == (if   vAddr[56] == bitone
+                      then ones()
+                      else zeros())
+}
+
 /* Compute the address translation mode. */
 
 val translationMode : (Privilege) -> SATPMode
@@ -145,6 +151,13 @@ function translateAddr_priv(vAddr, ac, effPriv) = {
                     }
                else TR_Failure(translationException(ac, PTW_Invalid_Addr()), ext_ptw)
              },
+    Sv57  => { if   isValidSv57Addr(vAddr)
+               then match translate57(asid, ptb, vAddr[56 .. 0], ac, effPriv, mxr, do_sum, SV57_LEVELS - 1, ext_ptw) {
+                      TR_Address(pa, ext_ptw) => TR_Address(zero_extend(pa), ext_ptw),
+                      TR_Failure(f, ext_ptw)  => TR_Failure(translationException(ac, f), ext_ptw)
+                    }
+               else TR_Failure(translationException(ac, PTW_Invalid_Addr()), ext_ptw)
+             },
     _     => internal_error(__FILE__, __LINE__, "unsupported address translation scheme")
   }
 }
@@ -156,10 +169,10 @@ function translateAddr(vAddr, ac) =
 val flush_TLB : (option(xlenbits), option(xlenbits)) -> unit
 function flush_TLB(asid_xlen, addr_xlen) -> unit = {
   /* Flush both Sv39 and Sv48 TLBs. */
-  let (addr39, addr48) : (option(vaddr39), option(vaddr48)) =
+  let (addr39, addr48, addr57) : (option(vaddr39), option(vaddr48), option(vaddr57)) =
     match addr_xlen {
-      None()  => (None(), None()),
-      Some(a) => (Some(a[38 .. 0]), Some(a[47 .. 0]))
+      None()  => (None(), None(), None()),
+      Some(a) => (Some(a[38 .. 0]), Some(a[47 .. 0]), Some(a[56 .. 0]))
     };
   let asid : option(asid64) =
     match asid_xlen {
@@ -167,10 +180,12 @@ function flush_TLB(asid_xlen, addr_xlen) -> unit = {
       Some(a) => Some(a[15 .. 0])
   };
   flush_TLB39(asid, addr39);
-  flush_TLB48(asid, addr48)
+  flush_TLB48(asid, addr48);
+  flush_TLB57(asid, addr57)
 }
 
 function init_vmem() -> unit = {
   init_vmem_sv39();
-  init_vmem_sv48()
+  init_vmem_sv48();
+  init_vmem_sv57()
 }
