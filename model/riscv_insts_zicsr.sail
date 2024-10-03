@@ -79,7 +79,12 @@ function clause read_CSR(0xC21) = vtype.bits
 function clause read_CSR(0xC22) = vlenb
 
 /* trigger/debug */
-function clause read_CSR(0x7a0) = ~(tselect)  /* this indicates we don't have any trigger support */
+function clause read_CSR(0x7a0) = tselect
+function clause read_CSR(0x7a1) = tdata1_read(tselect)
+function clause read_CSR(0x7a2) = tdata2_read(tselect)
+function clause read_CSR(0x7a3) = tdata3
+function clause read_CSR(0x7a4) = tinfo_read(tselect)
+function clause read_CSR(0x7a5) = tcontrol.bits
 
 /* supervisor mode */
 function clause read_CSR(0x100) = lower_mstatus(mstatus).bits
@@ -167,7 +172,11 @@ function clause write_CSR((0b1011100 /* 0xB80 */ @ index : bits(5), value) if xl
 }
 
 /* trigger/debug */
-function clause write_CSR(0x7a0, value) = { tselect = value; tselect }
+function clause write_CSR(0x7a0, value) = { tselect = legalize_tselect(tselect, value); tselect }
+function clause write_CSR(0x7a1, value) = { tdata1 = tdata1_write(tselect, tdata1_read(tselect), value); tdata1 }
+function clause write_CSR(0x7a2, value) = { tdata2 = tdata2_write(tselect, tdata2_read(tselect), value); tdata2 }
+function clause write_CSR(0x7a3, value) = { tdata3 = value; tdata3 }
+function clause write_CSR(0x7a5, value) = { tcontrol.bits = legalize_tcontrol(value); tcontrol.bits }
 
 /* supervisor mode */
 function clause write_CSR(0x100, value) = { mstatus = legalize_sstatus(mstatus, value); mstatus.bits }
