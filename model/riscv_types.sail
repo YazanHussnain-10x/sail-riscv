@@ -323,7 +323,7 @@ overload to_str = {exceptionType_to_str}
 
 /* debug spec trigger type definition */
 
-let N_TRIGGERS : nat = 7
+type N_TRIGGERS = 7
 let VALID_TRIGGER_TYPES : vector(5, dec, bits(4)) = [0x3, 0x4, 0x5, 0x6, 0xF]
 
 type match_option = bits(4)

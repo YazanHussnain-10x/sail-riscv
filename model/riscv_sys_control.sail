@@ -361,7 +361,7 @@ function TriggerFireMatch(cur_priv : Privilege) -> bool = {
 /* Instruction Count Trigger Match */
 function icount_trigger_match(cur_priv : Privilege) -> unit = {
   /* Traverse through all the triggers */
-  foreach (i from 0 to 6) {
+  foreach (i from 0 to (sizeof(N_TRIGGERS) - 1)) {
     let trigger_type : bits(4) = tdata1_x.tdata1[i][(sizeof(xlen) - 1) .. (sizeof(xlen) - 4)];
     /* If Instruction Count trigger is found */
     if (trigger_type == triggerType_to_bits(TRIG_ICOUNT)) then {
@@ -386,7 +386,7 @@ function icount_trigger_match(cur_priv : Privilege) -> unit = {
 /* Interrupt/Exception Trigger */
 function IEtrigger_match(cur_priv : Privilege, idx : {'n, (0 <= 'n < xlen). int('n)}) -> unit = {
   /* Traverse through all the triggers */
-  foreach (i from 0 to 6) {
+  foreach (i from 0 to (sizeof(N_TRIGGERS) - 1)) {
     let trigger_type : bits(4) = tdata1_x.tdata1[i][(sizeof(xlen) - 1) .. (sizeof(xlen) - 4)];
     /* If Interrupt / Exception trigger found */
     if ((trigger_type == triggerType_to_bits(TRIG_ETRIGGER)) |
@@ -566,7 +566,7 @@ function handle_interrupt(i : InterruptType, del_priv : Privilege) -> unit = {
 
 function find_first_zero(v: xlenbits) -> {'n, (1 <= 'n < xlen). int('n)} = {
   foreach (i from 1 to (sizeof(xlen) - 1)) {
-    if bit_to_bool(v[i]) == bits_to_bool(0b0) then return i;
+    if v[i .. i] == 0b0 then return i;
   };
   return 1;
 }
@@ -575,7 +575,7 @@ function find_first_zero(v: xlenbits) -> {'n, (1 <= 'n < xlen). int('n)} = {
 function instrDataMatch(cur_priv : Privilege, addr : xlenbits, data : xlenbits, match_size : matchSize, match_type : MatchType) -> bool = {
   var raise_exception : bool = false;
   /* Traverse through all tirggers */
-  foreach (i from 0 to 6) {
+  foreach (i from 0 to (sizeof(N_TRIGGERS) - 1)) {
     let trigger_type : bits(4) = tdata1_x.tdata1[i][(sizeof(xlen) - 1) .. (sizeof(xlen) - 4)];
     var data_matched : bool = false;
     var size_matched : bool = false;
@@ -670,7 +670,7 @@ function check_trigger_firing(cur_priv : Privilege) -> bool = {
   var IEtrigger          : InterruptTrigger  = Mk_InterruptTrigger(zero_extend(0b0));
   var MCtrl6             : MatchControlType6 = Mk_MatchControlType6(zero_extend(0b0));
   /* Traverse through each trigger */
-  foreach (i from 0 to 6) 
+  foreach (i from 0 to (sizeof(N_TRIGGERS) - 1)) 
   {
     InstrCount = Mk_InstructionCount(tdata1_x.tdata1[i][26 .. 0]);
     IEtrigger  = Mk_InterruptTrigger(tdata1_x.tdata1[i]);

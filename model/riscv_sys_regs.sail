@@ -753,15 +753,15 @@ register tselect : xlenbits
 function legalize_tselect(o : xlenbits, v : xlenbits) -> xlenbits = {
   let t : xlenbits = o;
   // TODO: Avoid hardcode value
-  if (unsigned(v) <= (N_TRIGGERS - 1)) then { v } else { t }
+  if (unsigned(v) <= (sizeof(N_TRIGGERS) - 1)) then { v } else { t }
 }
 
 struct N_TDATA1 = {
-  tdata1 : vector(7, xlenbits)
+  tdata1 : vector(N_TRIGGERS, xlenbits)
 }
 
 struct N_TDATA2 = {
-  tdata2 : vector(7, xlenbits)
+  tdata2 : vector(N_TRIGGERS, xlenbits)
 }
 
 register tdata1_x : N_TDATA1 = undefined
@@ -863,20 +863,6 @@ bitfield InterruptTrigger : xlenbits = {
   action : 5 .. 0
 }
 
-/* Validdate Match Option of Match Control Type 6 Trigger  */
-function validate_match_option(old_match_val : bits(4), new_match_val : bits(4)) -> bits(4) = {
-  /* Valid Options 
-     0 -> EQUAL
-     1 -> Greater Than Equal
-     2 -> Less Than */
-  let valid_match_options : vector(3, dec, bits(4)) = [0x0, 0x2, 0x3];
-  var validate : bool = false;
-  foreach (i from 0 to 2) {
-    if (valid_match_options[i] == new_match_val) then { validate = true; }
-  };
-  if (validate) then { new_match_val } else { old_match_val }
-}
-
 /* Legalize Tdata1 */
 function legalize_tdata1(o : xlenbits, v : xlenbits) -> xlenbits = {
   let trigger_type   : bits(4)           = v[(sizeof(xlen) - 1) .. (sizeof(xlen) - 4)];
@@ -929,7 +915,8 @@ function legalize_tdata1(o : xlenbits, v : xlenbits) -> xlenbits = {
       if (
         match_option == MOPT_EQUAL |
         match_option == MOPT_GE    |
-        match_option == MOPT_LT
+        match_option == MOPT_LT    |
+        match_option == MOPT_NAPOT
       ) 
       then { new_value[10 .. 7]  = v[10 .. 7] }
       else { new_value[10 .. 7]  = o[10 .. 7] };
